@@ -1,5 +1,4 @@
-# Spall 
-
+# Spall  
 ***Sequential Pixel Art Layer Language***
 
 
