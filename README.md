@@ -92,15 +92,12 @@ local tiles = spall.load("tileset.spl")
 You’ll get back a table of pixel buffers (2D matrices) to use in your game or tool.
 
 
+## Spec
 
-## Name
+See the full [language spec](./spall-spec.md) for syntax, ops, buffer model, and output behavior.
+
+---
 
 > **Spall**  
 > *Verb*: "to break rock into smaller pieces"  
 > *Noun*: "a splinter or chip of stone"
-
-
-
-## Spec
-
-See the full [language spec](./spall-spec.md) for syntax, ops, buffer model, and output behavior.
