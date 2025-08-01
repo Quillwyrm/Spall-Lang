@@ -11,7 +11,7 @@ Spall is a minimal and expressive scripting language for defining pixel operatio
 A minimal and expressive scripting language for creating pixel operation flows, used to generate sprites, tiles, masks, and procedural shapes.
 
 ### Why?  
-To let you explore, create, and express pixel art through a code-driven, layered, and generative medium.
+To let you explore, create, and express pixel art through an intuative, code-driven, layered, and generative medium.
 
 - Want to create subtle tile variations? Just tweak a few values.  
 - Want to define an entire tileset with variants? Just stack multiple `# tiles` in one file.  
