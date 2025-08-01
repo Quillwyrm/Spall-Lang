@@ -89,7 +89,7 @@ local spall = require("splgen")
 local tiles = spall.load("tileset.spl")
 ```
 
-You’ll get back a table of pixel buffers (2D matrices) to use in your game or tool.
+You’ll get back a table of pixel buffers (2D intiger matrices) to use in your game or tool.
 
 
 ## Spec
