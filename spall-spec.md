@@ -51,7 +51,7 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops (for now).
 
 ## 1. File Layout & Execution Model
 
-### Execution
+### Spall Execution
 Spall code is written in `.spl` files and executed top-down.  
 The order of definition blocks must be:
 
@@ -67,7 +67,7 @@ The order of definition blocks must be:
 | `:`    | Reusable **Block** definition           |
 | `#`    | Output **Tile** definition (.png saved) |
 
-### Buffers
+### Pixel Buffer Types
 
 - **TEMP** — Temporary scratch buffer for the current op.  
   Auto-merged to MAIN after each op unless bound to a name or consumed.  
@@ -81,7 +81,7 @@ The order of definition blocks must be:
   Your named buffers created from bound `TEMP`s or `BlockDef`s.    
   These store reusable pixel data for composition or masking.
 
-### Merge Behavior
+### Implicit Buffer Merge Behavior
 
 At each stage, if the TEMP buffer is not bound or consumed, it is implicitly merged into the MAIN buffer.  
 A TEMP buffer can be bound to a name using `OP : name`, turning it into a SHAPE.
