@@ -4,7 +4,7 @@
 
 A procedural instruction language for generating pixel tiles and sprites, inspired by minimal stack scripting (PostScript, Forth), BASIC, and ASM.
 
----
+
 
 ## What is Spall?
 
@@ -14,7 +14,7 @@ like `CIRC`, `LINE`, `GRID`, `MELD`, and `ERASE`. Each operation manipulates pix
 You write a `.spl` script.  
 It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 
----
+
 
 ## Core Concepts
 
@@ -42,7 +42,7 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 | `:`    | Reusable block definition           |
 | `#`    | Output tile definition (.png saved) |
 
----
+
 
 ## Global Directives
 
