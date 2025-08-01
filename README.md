@@ -1,5 +1,7 @@
 # Spall 
 
+> Verb - "break (ore, rock, or stone) into smaller pieces, especially in preparation for sorting."
+
 `Sequential Pixel Art Layer Language`
 
 ## What?
