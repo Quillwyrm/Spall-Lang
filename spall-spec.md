@@ -227,14 +227,14 @@ Matrix API (access pattern, structure)
 
 
 
-Expression binding model:
-
+## Expression binding model:
+```
 <math expr> : <name>
-
+```
 And conditional expressions are a special case:
-
+```
 IF <cond> THEN <val1> ELSE <val2> : <name>
-
+```
 
 
 ## ✅ .spd — Spall Pixel Data
