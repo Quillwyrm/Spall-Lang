@@ -1,15 +1,50 @@
-# Spall 
-
-> Sequential Pixel Art Layer Language
+#Spall - Sequential Pixel Art Layer Language
 
 A procedural instruction language for generating pixel tiles and sprites, inspired by minimal stack scripting (PostScript, Forth), BASIC, and ASM.
 
+---
+
+# Whats Spall?
+A scripting language tailored for creating simple and expressive pixel operation flows; to output sprites and tiles.
+
+---
+
+# Why Spall?
+To let you explore, create, and express pixel art through a code-driven, layered, and generative medium.
+
+Want to create subtle tile variations? Just tweak a few values.
+Want to define an entire tileset with variants? Just stack multiple `# tiles` in one file.
+Want each output to be slightly different? Use `> RAND` vars.
+Want to define reusable, composable shapes? Bind a `: Block`, and reuse it across scripts.
+Want to build procedural shape patterns? Use vars from `> LOOPS` to iterate ops with minimal syntax.
+Want to output logic masks or room shapes? Use Spall’s raw matrix mode; no .png required.
+
+It’s not just a novel way to make tiles. it’s a precise, minimal scripting tool for 2D pixel matrix operations.
+
+---
+
+# Inspirations
+
+Spall draws from a lineage of minimal, expressive languages, each one influencing a different part of its design.
+
+BASIC, created in 1964 by John G. Kemeny and Thomas E. Kurtz at Dartmouth College, was designed to make programming simple and accessible for beginners.
+It later became widely adopted on home computers throughout the 70s and 80s.
+BASIC inspired Spall’s procedural simplicity and creative spirit, with its focus on clear structure, immediate feedback, and low-friction exploration.
+
+PostScript, developed in 1982 by John Warnock and Chuck Geschke at Adobe, formalized the use of code to define 2D graphics.
+Its clean design and portability led to widespread adoption in publishing, printing, and layout systems.
+Its stack-based model and drawing primitives directly influenced Spall’s idea of composable, code-driven pixel operations.
+
+Forth, created in 1970 by Charles H. Moore, was designed for embedded and resource-constrained systems.
+As a stack-based language with postfix syntax and near-zero abstraction overhead, it was used in environments like early robotics, instrumentation, and NASA spacecraft.
+Forth inspired Spall’s focus on minimalism and linear execution.
+
+ASM, or Assembly, was the original spark. Spall was born from explorations of bytecode, intermediate representations (IR), and instruction streams,
+where simplicity, control, and direct intent are the core of expressive power.
 
 
-## What is Spall?
 
-Spall is a procedural art language for describing how to *construct* sprites and tile graphics by composing operations 
-like `CIRC`, `LINE`, `GRID`, `MELD`, and `ERASE`. Each operation manipulates pixel buffers in an immediate-mode, linear stack flow.
+## How?
 
 You write a `.spl` script.  
 It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
