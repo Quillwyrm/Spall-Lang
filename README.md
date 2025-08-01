@@ -29,7 +29,7 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 
 | Situation                     | Result                            |
 |------------------------------|------------------------------------|
-| TEMP is consumed              | TEMP is discarded (e.g. `ERASE MASK`) |
+| TEMP is consumed              | TEMP is discarded (e.g. `ERASE SHAPE`) |
 | TEMP is named                 | TEMP is saved (e.g. `LINE 0 0 7 7 : diag`) |
 | TEMP is left unbound          | Implicit merge into MAIN on next op |
 | TEMP is last op in tile block | Auto-merged to MAIN unless named |
@@ -130,21 +130,21 @@ MELD a b OR
 Supported logic ops: `OR`, `AND`, `XOR`, `SUB`
 
 
-### Masking
+### Shapes
 ```
 CIRC 1 2 3 : Foo     -- Circle shape bound to Foo
 RECT 0 0 8 8         -- Draw rect
 ERASE Foo            -- Erase Foo from MAIN buffer
 
-LINE 0 0 8 8         -- Line with no name, used by MASK implicitly
-ERASE MASK           -- Erase previous op from MAIN
+LINE 0 0 8 8         -- Line with no name, used by SHAPE implicitly
+ERASE SHAPE          -- Erase previous op from MAIN
 ```
 
-**`MASK`** uses the previous op’s TMP buffer — allowing you to apply simple shapes without naming them.
+`SHAPE` uses the previous op’s TEMP buffer — allowing you to apply simple shapes without naming them.
 
-**`ERASE`** expects a *mask* input. A mask can be:
-- an anonymous TMP buffer (via `MASK`)
-- a named TMP (via `OP : name`)
+`ERASE` expects a *Shape* input. A Shape can be:
+- an anonymous TEMP buffer (via `SHAPE`)
+- a named TEMP (via `OP : name`)
 - or a named Block (i.e. a `: BlockName` definition)
 
 
@@ -152,13 +152,13 @@ ERASE MASK           -- Erase previous op from MAIN
 
 ## Examples
 
-### A radial mask block
+### A radial shape block
 
 ```
-: RadialMask 8 8
+: RadialShape 8 8
   CIRC 4 4 3
   GRID 8 8
-  ERASE MASK
+  ERASE SHAPE
 ```
 
 ### A composite tile using the above
@@ -166,7 +166,7 @@ ERASE MASK           -- Erase previous op from MAIN
 ```
 # walk_diag 8 8
   RECT 0 0 8 8 blk
-  ERASE RadialMask
+  ERASE RadialShape
   LINE 0 0 7 7 wht
 ```
 
@@ -176,7 +176,7 @@ ERASE MASK           -- Erase previous op from MAIN
 : SparkCore
   CIRC 4 4 2 red
   CIRC 4 4 1 ice
-  ERASE MASK
+  ERASE SHAPE
 ```
 
 ---
@@ -185,7 +185,7 @@ ERASE MASK           -- Erase previous op from MAIN
 
 - Each `# name w h` → outputs `name.png`
 - Each `: name w h` → defines a reusable drawing block
-- TEMPs are merged, masked, or saved explicitly
+- TEMPs are merged, consumed by OPs like `SHAPE`, or saved explicitly
 
 ---
 
