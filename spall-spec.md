@@ -160,7 +160,7 @@ Meta Ops (MASK, RAND etc.)
 Shape stroke & fill 
 
 (Summarized)
-Form	                      Meaning
+```
 CIRC x y r c	              -- Fill only
 CIRC x y r c EDGE	          -- Stroke only (default width 1)
 CIRC x y r c EDGE 2	        -- Stroke only, width 2
@@ -168,7 +168,7 @@ CIRC x y r c EDGE 2 IN	    -- Stroke only, width 2, inner edge
 CIRC x y r c1 c2	          -- Fill + stroke, stroke width 1
 CIRC x y r c1 c2 2	        -- Fill + stroke, stroke width 2
 CIRC x y r c1 c2 2 OUT	    -- Fill + stroke, stroke outer edge
-
+```
 ✅ Why this rocks
 No sentinel tokens (none, C0) — instead, use positional awareness
 
@@ -239,7 +239,7 @@ IF <cond> THEN <val1> ELSE <val2> : <name>
 
 ## ✅ .spd — Spall Pixel Data
 
-> IMPORT loads named shape buffers from a `.spd` file — a plain Lua table.
+`> IMPORT` loads named shape buffers from a `.spd` file — a plain Lua table.
 
 Each file returns a table of named shapes:
 ```lua
@@ -268,7 +268,7 @@ return {
 
 – `px` must be a 2D array of raw color indices  
 – Values are `0..n` where `0` is transparent (`C0`), others are user-defined (`C1`..`Cn`)  
-– No aliases, no logic — just pixels
+
 
 ```
 > IMPORT
