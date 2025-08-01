@@ -48,8 +48,7 @@ Forth inspired Spall’s focus on minimalism and linear execution.
 where simplicity, control, and direct intent are the core of expressive power.
 
 ***Spall***
-> Verb - "break (ore, rock, or stone) into smaller pieces, especially in preparation for sorting."
-
+> Verb - "break (ore, rock, or stone) into smaller pieces, especially in preparation for sorting."  
 > Noun - "a splinter or chip, especially of rock."
 
 
