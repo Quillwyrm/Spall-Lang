@@ -73,7 +73,7 @@ The order of definition blocks must be:
   Auto-merged to MAIN after each op unless bound to a name or consumed.  
   Can be used as a shape to mask, stamp, or merge.
 
-- **MAIN** — The cumulative tile buffer.  
+- **MAIN** — The cumulative tile buffer.   
   Built by implicitly merging TEMP to MAIN after each op.  
   The accumulated tile data for the current `# tile`.
 
