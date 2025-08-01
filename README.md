@@ -1,10 +1,12 @@
 # Spall 
 
+`Sequential Pixel Art Layer Language`
+
 > Verb - "break (ore, rock, or stone) into smaller pieces, especially in preparation for sorting."
 
 > Noun - "a splinter or chip, especially of rock."
 
-`Sequential Pixel Art Layer Language`
+
 
 ## What?
 A minimal and expressive scripting language for creating pixel operation flows, used to generate sprites and tiles.
