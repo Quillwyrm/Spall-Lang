@@ -57,7 +57,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 
 `Spall` draws from a lineage of minimal, expressive languages — each one influencing a different part of its design.
 
-**BASIC**, created in 1964 by John G. Kemeny and Thomas E. Kurtz at Dartmouth College, was designed to make programming simple and accessible for beginners.  
+``**BASIC**``, created in 1964 by John G. Kemeny and Thomas E. Kurtz at Dartmouth College, was designed to make programming simple and accessible for beginners.  
 It later became widely adopted on home computers throughout the 1970s and 80s.  
 BASIC inspired Spall’s procedural simplicity and creative spirit, with its focus on clear structure, immediate feedback, and low-friction exploration.
 
