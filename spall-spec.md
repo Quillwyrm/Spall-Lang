@@ -77,8 +77,8 @@ The order of definition blocks must be:
   Built by implicitly merging TEMP to MAIN after each op.  
   The accumulated tile data for the current `# tile`.
 
-- **SHAPE buffers** — Predefined Shapes, 
-  Your named buffers created from bound `TEMP`s or `BlockDef`s.  
+- **SHAPE buffers** — Predefined Shapes,  
+  Your named buffers created from bound `TEMP`s or `BlockDef`s.    
   These store reusable pixel data for composition or masking.
 
 ### Merge Behavior
