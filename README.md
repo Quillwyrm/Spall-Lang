@@ -46,7 +46,7 @@ Forth inspired Spall’s focus on minimalism and linear execution.
 **ASM**, or Assembly, was the original spark. Spall was born from explorations of bytecode, intermediate representations (IR), and instruction streams,
 where simplicity, control, and direct intent are the core of expressive power.
 
-***Spall***
+###***Spall***
 > **Verb** - "break (ore, rock, or stone) into smaller pieces, especially in preparation for sorting."  
 > **Noun** - "a splinter or chip, especially of rock."
 
