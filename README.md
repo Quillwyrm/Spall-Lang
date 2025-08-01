@@ -21,9 +21,9 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 ### Buffers
 
 - **TEMP** — Temporary scratch buffer for the current op.  
-  Auto-merged to MAIN after each op unless saved or consumed.
+  Auto-merged to MAIN after each op unless bound to a name or consumed.
 - **MAIN** — The cumulative tile buffer.  
-  Built by merging TEMPs over time.
+  Built by implicitly merging TEMP to MAIN after each op.
 
 ### Merge Semantics
 
@@ -39,8 +39,8 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 | Prefix | Meaning                             |
 |--------|-------------------------------------|
 | `>`    | Global directive or config block    |
-| `:`    | Reusable block definition           |
-| `#`    | Output tile definition (.png saved) |
+| `:`    | Reusable **Block** definition           |
+| `#`    | Output **Tile** definition (.png saved) |
 
 
 
@@ -76,8 +76,8 @@ LINE 0 0 7 7 red
 
 ### Block Definitions (`: name w h`)
 
-Reusable procedural components.  
-TEMP names are **local** to the block.
+Reusable shape buffers.  
+TEMP buffers bound to names are **local** to the block.
 
 Example:
 ```
@@ -104,14 +104,12 @@ Example:
 
 ## Drawing Ops
 
-Common operations that draw to TEMP:
-
 - `RECT x y w h [color]`
 - `LINE x1 y1 x2 y2 [color]`
 - `CIRC cx cy r [color]`
 - `GRID w h [color]` — grid pattern fill
 
-Color is optional; defaults to palette index 1.
+Color is optional; defaults to C1 (palette index 1).
 
 ---
 
@@ -126,7 +124,7 @@ LINE 0 0 7 7 : diag
 ### Merge TEMPs
 
 ```
-MELD a b OR : combo
+MELD a b OR
 ```
 
 Supported logic ops: `OR`, `AND`, `XOR`, `SUB`
@@ -134,8 +132,11 @@ Supported logic ops: `OR`, `AND`, `XOR`, `SUB`
 ### Masking
 
 ```
-Foo MASK
-ERASE MASK
+CIRC 1 2 3 : Foo  -- Circle shape bound to Foo
+RECT 0 0 8 8      -- Draw rect
+ERASE Foo         -- Erase Foo from MAIN buffer
+LINE 0 0 8 8      -- Line with no name, used by MASK implicitly
+ERASE MASK        -- Erase previous op from MAIN
 ```
 
 This uses TEMP as a mask for the next op.
