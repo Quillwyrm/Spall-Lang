@@ -271,9 +271,10 @@ return {
 ```
 
 > META
+	AUTHOR : Quillwyrm
   NAME : tileset1
   TAGS : tilesets masks
-	AUTHOR : Quillwyrm
+	
 
 : room 4 4
   0 1 1 0 
