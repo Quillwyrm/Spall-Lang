@@ -33,7 +33,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 - Works as a CLI or Lua module
 - Zero dependencies, no GUI or editor required
 
-####Example:
+### Example:
 
 ```
 > SIZE 8 8          	-- Set global tile dimensions
