@@ -1,6 +1,6 @@
 # Spall 
 
-`Sequential Pixel Art Layer Language`
+***Sequential Pixel Art Layer Language***
 
 
 
