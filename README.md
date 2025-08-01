@@ -34,6 +34,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 - Zero dependencies, no GUI or editor required
 
 ####Example:
+
 ```
 > SIZE 8 8          	-- Set global tile dimensions
 > COLORS            	-- Define Global Palette
