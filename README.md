@@ -57,7 +57,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 
 **`Spall`** draws from a lineage of minimal, expressive languages — each one influencing a different part of its design.
 
-**`BASIC`**, created in 1964 by John G. Kemeny and Thomas E. Kurtz at Dartmouth College, was designed to make programming simple and accessible for beginners.  
+**`BASIC`**, created in 1964 by John G. Kemeny and Thomas E. Kurtz at Dartmouth College, was designed to make programming simple and accessible for beginners.
 It later became widely adopted on home computers throughout the 70s and 80s.
 BASIC inspired Spall’s procedural simplicity and creative spirit, with its focus on clear structure, immediate feedback, and low-friction exploration.
 
@@ -66,7 +66,7 @@ Its clean design and portability led to widespread adoption in publishing, print
 Its stack-based model and drawing primitives directly influenced Spall’s idea of composable, code-driven pixel operations.
 
 **`Forth`**, created in 1970 by Charles H. Moore, was designed for embedded and resource-constrained systems.
-As a stack-based language with postfix syntax and near-zero abstraction overhead, it was used in environments like early robotics, instrumentation, and NASA spacecraft.  
+As a stack-based language with postfix syntax and near-zero abstraction overhead, it was used in environments like early robotics, instrumentation, and NASA spacecraft.
 Forth inspired Spall’s focus on minimalism and linear execution.
 
 **`ASM`**, or Assembly, was the original spark. Spall was born from explorations of bytecode, intermediate representations (IR), and instruction streams,
