@@ -36,8 +36,8 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 ### Example:
 
 ```
-> SIZE 8 8          -- Set global tile dimensions
-> COLORS            -- Define Global Palette
+> SIZE 8 8           -- Set global tile dimensions
+> COLORS             -- Define Global Palette
   C1 #000000 : blk
   C2 #ffffff : wht
   C3 #ff0044 : red
