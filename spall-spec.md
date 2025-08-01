@@ -99,55 +99,24 @@ as either `.png` files or a `.yml` file containing the matrix data, depending on
 
 -
 
-## 4. Directives
+## 2. Config & Directives
 
-> SIZE
+`> SIZE`
 
-> COLORS
+`> COLORS`
 
-> LOOPS
+`> LOOPS`
 
-> RANDS
+`> RANDS`
 
-Others you plan (> EXPORT, > DOC, etc.)
-
-
+Others you plan (`> FRAMES, > INFO`)
 
 
+## 3. Block & Tile definitions
 
+`: name` — Shape block definition
 
-
-
---
-													1. Introduction
-													One-paragraph pitch (you’ve already nailed this)
-
-													Purpose of the language
-
-													Core inspiration and intended use cases
-
-													2. File Structure & Execution Model
-													.spl file layout (top-down execution)
-
-													How Spall is interpreted (one pass, no control flow, buffer state)
-
-													Output structure: .png, matrix return, etc.
-
-
-
-4. Directives
-> TILESIZE
-
-> COLORS
-
-> LOOPS
-
-Others you plan (> EXPORT, > DOC, etc.)
-
-5. Block Types
-: name — SHAPE/block definition
-
-# name — tile output definition
+`# name` — Tile output definition
 
 Scoping rules
 
@@ -155,7 +124,9 @@ What blocks return (a TMP buffer)
 
 TMP naming rules inside blocks
 
-6. Instruction Set (OPs)
+
+## 4. Pixel Operations - Ops
+
 Format: OP arg1 arg2 ...
 
 Per-op entry:
@@ -176,7 +147,7 @@ Logic Ops (MELD, INVERT, WIPE)
 
 Meta Ops (MASK, RAND etc.)
 
-7. Iteration
+## 5. Iterators (LOOPS)
 > LOOPS syntax
 
 How iterator values are injected
@@ -185,32 +156,120 @@ Static expansion model
 
 Loop naming convention (ix, iy etc.)
 
-8. Naming and Scope
-What names are valid
+## 6. Random Variables (RANDS)
 
-Where names can be reused
 
-TMP name lifespan
 
-Block vs TILE scope
 
-9. Output Modes
-Default: .png
 
-Optional: matrix return (for programmatic use)
 
-Future: binary/CSV/JSON exports
 
-10. Transpilation Model (Optional)
-How Spall maps to Lua (or other backends)
 
-What the output runtime expects
 
-11. Appendix / Glossary
-SHAPE vs TMP vs MASK
 
-TMP Merge Rules Table
 
-Reserved OP names
 
-Reserved directive names
+
+
+
+
+
+
+ 
+--
+
+													1. Introduction
+													One-paragraph pitch (you’ve already nailed this)
+
+													Purpose of the language
+
+													Core inspiration and intended use cases
+
+													2. File Structure & Execution Model
+													.spl file layout (top-down execution)
+
+													How Spall is interpreted (one pass, no control flow, buffer state)
+
+													Output structure: .png, matrix return, etc.
+
+
+
+													4. Directives
+													> TILESIZE
+
+													> COLORS
+
+													> LOOPS
+
+													Others you plan (> EXPORT, > DOC, etc.)
+
+													5. Block Types
+													: name — SHAPE/block definition
+
+													# name — tile output definition
+
+													Scoping rules
+
+													What blocks return (a TMP buffer)
+
+													TMP naming rules inside blocks
+
+													6. Instruction Set (OPs)
+													Format: OP arg1 arg2 ...
+
+													Per-op entry:
+
+													Name
+
+													Args
+
+													Writes to TMP? Y/N
+
+													Example
+
+													You can categorize:
+
+													Draw Ops (RECT, CIRC, LINE, GRID, BLIT)
+
+													Logic Ops (MELD, INVERT, WIPE)
+
+													Meta Ops (MASK, RAND etc.)
+
+													7. Iteration
+													> LOOPS syntax
+
+													How iterator values are injected
+
+													Static expansion model
+
+													Loop naming convention (ix, iy etc.)
+
+													8. Naming and Scope
+													What names are valid
+
+													Where names can be reused
+
+													TMP name lifespan
+
+													Block vs TILE scope
+
+													9. Output Modes
+													Default: .png
+
+													Optional: matrix return (for programmatic use)
+
+													Future: binary/CSV/JSON exports
+
+													10. Transpilation Model (Optional)
+													How Spall maps to Lua (or other backends)
+
+													What the output runtime expects
+
+													11. Appendix / Glossary
+													SHAPE vs TMP vs MASK
+
+													TMP Merge Rules Table
+
+													Reserved OP names
+
+													Reserved directive names
