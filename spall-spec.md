@@ -105,11 +105,19 @@ as either `.png` files or a `.yml` file containing the matrix data, depending on
 
 `> COLORS`
 
+`> VARS`
+
 `> LOOPS`
 
 `> RANDS`
 
+
+
 Others you plan (`> FRAMES, > INFO`)
+
+C0 is a reserved color constant representing transparency.
+It is automatically aliased to 'none'.
+These aliases are built-in and cannot be overridden.
 
 <!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -148,6 +156,29 @@ Draw Ops (RECT, CIRC, LINE, GRID, BLIT)
 Logic Ops (MELD, INVERT, WIPE)
 
 Meta Ops (MASK, RAND etc.)
+
+Shape stroke & fill 
+
+(Summarized)
+Form	                      Meaning
+CIRC x y r c	              -- Fill only
+CIRC x y r c EDGE	          -- Stroke only (default width 1)
+CIRC x y r c EDGE 2	        -- Stroke only, width 2
+CIRC x y r c EDGE 2 IN	    -- Stroke only, width 2, inner edge
+CIRC x y r c1 c2	          -- Fill + stroke, stroke width 1
+CIRC x y r c1 c2 2	        -- Fill + stroke, stroke width 2
+CIRC x y r c1 c2 2 OUT	    -- Fill + stroke, stroke outer edge
+
+✅ Why this rocks
+No sentinel tokens (none, C0) — instead, use positional awareness
+
+Backward compatible — single-color still means fill
+
+Postfix STROKE adds flexibility without breaking simplicity
+
+Optional args (width, edge mode) follow classic IR/forth-style extension
+
+Totally parseable: arity of args drives dispatch
 
 <!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -196,11 +227,60 @@ Matrix API (access pattern, structure)
 
 
 
+Expression binding model:
+
+<math expr> : <name>
+
+And conditional expressions are a special case:
+
+IF <cond> THEN <val1> ELSE <val2> : <name>
 
 
 
+## ✅ .spd — Spall Pixel Data
 
+> IMPORT loads named shape buffers from a `.spd` file — a plain Lua table.
 
+Each file returns a table of named shapes:
+```lua
+return {
+  room = {
+    w = 4, h = 4,
+    px = {
+      {0, 1, 1, 0},
+      {1, 2, 2, 1},
+      {1, 2, 2, 1},
+      {0, 1, 1, 0},
+    }
+  },
+
+  fog = {
+    w = 4, h = 4,
+    px = {
+      {0, 0, 0, 0},
+      {0, 1, 1, 0},
+      {0, 1, 1, 0},
+      {0, 0, 0, 0},
+    }
+  }
+}
+```
+
+– `px` must be a 2D array of raw color indices  
+– Values are `0..n` where `0` is transparent (`C0`), others are user-defined (`C1`..`Cn`)  
+– No aliases, no logic — just pixels
+
+```
+> IMPORT
+  tiles/tileset.spd
+  room : base_room
+  fog  : fog_mask
+
+```
+
+– Each `.spd` file can define multiple named shapes  
+– Bind names manually after file path  
+– Shapes are inert until used in ops
 
 
 
