@@ -14,12 +14,17 @@ A scripting language tailored for creating simple and expressive pixel operation
 # Why Spall?
 To let you explore, create, and express pixel art through a code-driven, layered, and generative medium.
 
-Want to create subtle tile variations? Just tweak a few values.
-Want to define an entire tileset with variants? Just stack multiple `# tiles` in one file.
-Want each output to be slightly different? Use `> RAND` vars.
-Want to define reusable, composable shapes? Bind a `: Block`, and reuse it across scripts.
-Want to build procedural shape patterns? Use vars from `> LOOPS` to iterate ops with minimal syntax.
-Want to output logic masks or room shapes? Use Spall’s raw matrix mode; no .png required.
+- Want to create subtle tile variations? Just tweak a few values.
+
+- Want to define an entire tileset with variants? Just stack multiple `# tiles` in one file.
+
+- Want each output to be slightly different? Use `> RAND` vars.
+
+- Want to define reusable, composable shapes? Bind a `: Block`, and reuse it across scripts.
+
+- Want to build procedural shape patterns? Use vars from `> LOOPS` to iterate ops with minimal syntax.
+
+- Want to output logic masks or room shapes? Use Spall’s raw matrix mode; no .png required.
 
 It’s not just a novel way to make tiles. it’s a precise, minimal scripting tool for 2D pixel matrix operations.
 
