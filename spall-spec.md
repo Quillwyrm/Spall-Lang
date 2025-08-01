@@ -269,9 +269,10 @@ return {
 
 ### potential future custom format (transpiled to lua tables):
 ```
+
 > META
   NAME : tileset1
-  TAGS : tilesets, masks
+  TAGS : tilesets masks
 	AUTHOR : Quillwyrm
 
 : room 4 4
@@ -279,6 +280,7 @@ return {
   1 2 2 1 
   1 2 2 1 
   0 1 1 0
+	
 ```
 
 – `px` must be a 2D array of raw color indices  
