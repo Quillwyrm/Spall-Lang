@@ -240,6 +240,7 @@ IF <cond> THEN <val1> ELSE <val2> : <name>
 ## ✅ .spd — Spall Pixel Data
 
 `> IMPORT` loads named shape buffers from a `.spd` file — a plain Lua table.
+`.spd` files can be generated from `.spl` scripts using the `splgen` CLI tool.
 
 Each file returns a table of named shapes:
 ```lua
