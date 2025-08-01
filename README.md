@@ -2,16 +2,10 @@
 
 `Sequential Pixel Art Layer Language`
 
-An expressive procedural instruction language for generating pixel art tiles and sprites.
+## What?
+A minimal and expressive scripting language for creating pixel operation flows, used to generate sprites and tiles.
 
-
-
-## Whats Spall?
-A scripting language tailored for creating simple and expressive pixel operation flows; to output sprites and tiles.
-
-
-
-## Why Spall?
+## Why?
 To let you explore, create, and express pixel art through a code-driven, layered, and generative medium.
 
 - Want to create subtle tile variations? Just tweak a few values.
