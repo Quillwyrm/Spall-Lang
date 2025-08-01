@@ -272,6 +272,7 @@ return {
 > META
   NAME : tileset1
   TAGS : tilesets, masks
+	BY : Quillwyrm
 
 : room 4 4
   0 1 1 0 
