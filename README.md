@@ -1,4 +1,3 @@
-```
 # Spall
 
 **Spall** is a stack-based DSL for generating 1-bit or palette-based pixel tiles using pure code.  
@@ -206,4 +205,3 @@ This uses TMP as a mask for the next op.
 MIT
 
 > _“Draw with operations. Compose like IR. Output pure pixels.”_
-```
