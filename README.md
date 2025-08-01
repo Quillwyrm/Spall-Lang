@@ -1,4 +1,6 @@
-#Spall - Sequential Pixel Art Layer Language
+# Spall 
+
+`Sequential Pixel Art Layer Language`
 
 A procedural instruction language for generating pixel tiles and sprites, inspired by minimal stack scripting (PostScript, Forth), BASIC, and ASM.
 
@@ -48,7 +50,6 @@ where simplicity, control, and direct intent are the core of expressive power.
 
 You write a `.spl` script.  
 It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
-
 
 
 ## Core Concepts
