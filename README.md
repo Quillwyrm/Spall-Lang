@@ -74,7 +74,7 @@ where simplicity, control, and direct intent are the core of expressive power.
 
 
 
-## Usage
+## How?
 
 Write `.spl` scripts and run them via the `splgen` CLI tool:
 
@@ -92,7 +92,7 @@ local tiles = spall.load("tileset.spl")
 You’ll get back a table of pixel buffers (2D intiger matrices) to use in your game or tool.
 
 
-## Spec
+## Specification
 
 See the full [language spec](./spall-spec.md) for syntax, ops, buffer model, and output behavior.
 
