@@ -76,7 +76,7 @@ where simplicity, control, and direct intent are the core of expressive power.
 
 ## Usage
 
-Write `.spl` scripts and run them via the CLI tool:
+Write `.spl` scripts and run them via the `splgen` CLI tool:
 
 ```bash
 splgen input.spl --out output/
