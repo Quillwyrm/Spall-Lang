@@ -1,5 +1,7 @@
 # Spall 
+
 > Sequential Pixel Art Layer Language
+
 A procedural instruction language for generating pixel tiles and sprites, inspired by minimal stack scripting (PostScript, Forth), BASIC, and ASM.
 
 ---
