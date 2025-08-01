@@ -44,7 +44,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 
 : RedRing             -- Define a custom Shape Block, A red ring
   CIRC 4 4 6 red
-  CIRC 4 4 3          -- Color undefined because we dont need it, Shape consumed by next Op
+  CIRC 4 4 3          -- Color undefined because we dont need it, this Shape consumed by the next Op
   ERASE SHAPE         -- Erase last TEMP from the MAIN buffer ('SHAPE' Op consumes last TEMP buffer)
 
 # tileA               -- Define an output Tile, this is what will be exported.
