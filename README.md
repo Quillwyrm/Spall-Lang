@@ -129,18 +129,24 @@ MELD a b OR
 
 Supported logic ops: `OR`, `AND`, `XOR`, `SUB`
 
+
 ### Masking
-
 ```
-CIRC 1 2 3 : Foo  -- Circle shape bound to Foo
-RECT 0 0 8 8      -- Draw rect
-ERASE Foo         -- Erase Foo from MAIN buffer
-LINE 0 0 8 8      -- Line with no name, used by MASK implicitly
-ERASE MASK        -- Erase previous op from MAIN
+CIRC 1 2 3 : Foo     -- Circle shape bound to Foo
+RECT 0 0 8 8         -- Draw rect
+ERASE Foo            -- Erase Foo from MAIN buffer
+
+LINE 0 0 8 8         -- Line with no name, used by MASK implicitly
+ERASE MASK           -- Erase previous op from MAIN
 ```
 
-`MASK` uses the last OPs TEMP buffer, allowing you to easily use a simple shape without needing it bound to a name.
-`ERASE` expects a Mask as input, a mask is **ANY** TEMP buffer (accessed with MASK), name bound buffer (OP : name), or Block buffer (named Block)
+**`MASK`** uses the previous op’s TMP buffer — allowing you to apply simple shapes without naming them.
+
+**`ERASE`** expects a *mask* input. A mask can be:
+- an anonymous TMP buffer (via `MASK`)
+- a named TMP (via `OP : name`)
+- or a named Block (i.e. a `: BlockName` definition)
+
 
 
 
