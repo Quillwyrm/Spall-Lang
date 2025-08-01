@@ -271,9 +271,9 @@ return {
 ```
 
 > META
-	AUTHOR : Quillwyrm
-  NAME : tileset1
-  TAGS : tilesets masks
+	AUTHOR: Quillwyrm
+  NAME: tileset1
+  TAGS: tilesets masks
 	
 
 : room 4 4
