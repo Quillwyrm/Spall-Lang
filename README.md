@@ -4,12 +4,12 @@
 
 A procedural instruction language for generating pixel tiles and sprites, inspired by minimal stack scripting (PostScript, Forth), BASIC, and ASM.
 
----
+
 
 # Whats Spall?
 A scripting language tailored for creating simple and expressive pixel operation flows; to output sprites and tiles.
 
----
+
 
 # Why Spall?
 To let you explore, create, and express pixel art through a code-driven, layered, and generative medium.
@@ -28,7 +28,7 @@ To let you explore, create, and express pixel art through a code-driven, layered
 
 It’s not just a novel way to make tiles. it’s a precise, minimal scripting tool for 2D pixel matrix operations.
 
----
+
 
 # Inspirations
 
