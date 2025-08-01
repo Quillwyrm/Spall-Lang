@@ -45,7 +45,7 @@ where simplicity, control, and direct intent are the core of expressive power.
 You write a `.spl` script.  
 It outputs `.png` tiles — no GUI, no editor, just pure ops (for now).
 
--
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
 
 ## 1. File Layout & Execution Model
 
@@ -79,7 +79,7 @@ The order of definition blocks must be:
   Your named buffers created from bound `TEMP`s or `BlockDef`s.    
   These store reusable pixel data for composition or masking.
 
-### Implicit Buffer Merge Behavior
+### Buffer Merge Behavior
 
 At each stage, if the TEMP buffer is not bound or consumed, it is implicitly merged into the MAIN buffer.  
 A TEMP buffer can be bound to a name using `OP : name`, turning it into a SHAPE.
@@ -97,10 +97,10 @@ When run via the `splgen` CLI, a `.spl` file will output the defined tiles
 as either `.png` files or a `.yml` file containing the matrix data, depending on the command-line arguments.  
 `splgen` can also be used as a Lua module (`require("splgen")`) to integrate `.spl` parsing and execution into existing Lua projects.
 
--
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+
 
 ## 2. Config & Directives
-
 `> SIZE`
 
 `> COLORS`
@@ -111,9 +111,10 @@ as either `.png` files or a `.yml` file containing the matrix data, depending on
 
 Others you plan (`> FRAMES, > INFO`)
 
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+
 
 ## 3. Block & Tile definitions
-
 `: name` — Shape block definition
 
 `# name` — Tile output definition
@@ -124,9 +125,10 @@ What blocks return (a TMP buffer)
 
 TMP naming rules inside blocks
 
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+
 
 ## 4. Pixel Operations - Ops
-
 Format: OP arg1 arg2 ...
 
 Per-op entry:
@@ -147,6 +149,9 @@ Logic Ops (MELD, INVERT, WIPE)
 
 Meta Ops (MASK, RAND etc.)
 
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
 ## 5. Iterators (LOOPS)
 > LOOPS syntax
 
@@ -156,10 +161,35 @@ Static expansion model
 
 Loop naming convention (ix, iy etc.)
 
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
 ## 6. Random Variables (RANDS)
+```
+> RANDS
+  1 5 : rx
+  2 6 : ry
+```
+
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
 
 
+## 7. Output Modes
+.png
 
+.yml
+
+future: .json, raw matrix, preview shell
+
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+## 8. Embedding / Integration
+Lua module usage
+
+Matrix API (access pattern, structure)
+
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
 
 
 
