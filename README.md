@@ -1,7 +1,6 @@
 # Spall 
 > Sequential Pixel Art Layer Language
-
-A declarative procedural pixel art language for sprites and tiles , inspired by minimal stack scripting (PostScript, Forth), BASIC, and ASM.
+A procedural instruction language for generating pixel tiles and sprites, inspired by minimal stack scripting (PostScript, Forth), BASIC, and ASM.
 
 ---
 
@@ -19,19 +18,19 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 
 ### Buffers
 
-- **TMP** — Temporary scratch buffer for the current op.  
+- **TEMP** — Temporary scratch buffer for the current op.  
   Auto-merged to MAIN after each op unless saved or consumed.
 - **MAIN** — The cumulative tile buffer.  
-  Built by merging TMPs over time.
+  Built by merging TEMPs over time.
 
 ### Merge Semantics
 
 | Situation                     | Result                            |
 |------------------------------|------------------------------------|
-| TMP is consumed              | TMP is discarded (e.g. `ERASE MASK`) |
-| TMP is named                 | TMP is saved (e.g. `LINE 0 0 7 7 : diag`) |
-| TMP is left unbound          | Implicit merge into MAIN on next op |
-| TMP is last op in tile block | Auto-merged to MAIN unless named |
+| TEMP is consumed              | TEMP is discarded (e.g. `ERASE MASK`) |
+| TEMP is named                 | TEMP is saved (e.g. `LINE 0 0 7 7 : diag`) |
+| TEMP is left unbound          | Implicit merge into MAIN on next op |
+| TEMP is last op in tile block | Auto-merged to MAIN unless named |
 
 ### Identifiers and Prefixes
 
@@ -76,7 +75,7 @@ LINE 0 0 7 7 red
 ### Block Definitions (`: name w h`)
 
 Reusable procedural components.  
-TMP names are **local** to the block.
+TEMP names are **local** to the block.
 
 Example:
 ```
@@ -95,7 +94,7 @@ Example:
 ```
 # charged_core 8 8
   SparkCore          -- draws into MAIN
-  CrossLines ERASE   -- uses TMP 'cross' to erase
+  CrossLines ERASE   -- uses TEMP 'cross' to erase
   FrameBox           -- draws a border
 ```
 
@@ -103,7 +102,7 @@ Example:
 
 ## Drawing Ops
 
-Common operations that draw to TMP:
+Common operations that draw to TEMP:
 
 - `RECT x y w h [color]`
 - `LINE x1 y1 x2 y2 [color]`
@@ -116,13 +115,13 @@ Color is optional; defaults to palette index 1.
 
 ## Stack Ops
 
-### TMP Naming
+### TEMP Naming
 
 ```
 LINE 0 0 7 7 : diag
 ```
 
-### Merge TMPs
+### Merge TEMPs
 
 ```
 MELD a b OR : combo
@@ -137,7 +136,7 @@ Foo MASK
 ERASE MASK
 ```
 
-This uses TMP as a mask for the next op.
+This uses TEMP as a mask for the next op.
 
 ---
 
@@ -176,7 +175,7 @@ This uses TMP as a mask for the next op.
 
 - Each `# name w h` → outputs `name.png`
 - Each `: name w h` → defines a reusable drawing block
-- TMPs are merged, masked, or saved explicitly
+- TEMPs are merged, masked, or saved explicitly
 
 ---
 
