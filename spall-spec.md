@@ -3,8 +3,6 @@
 # Spall  
 ***Sequential Pixel Art Layer Language***
 
-## Introduction
-
 ### What?  
 A minimal and expressive scripting language for creating pixel operation flows, used to generate sprites and tiles.
 
