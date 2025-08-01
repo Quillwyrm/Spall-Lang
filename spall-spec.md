@@ -70,7 +70,7 @@ The order of definition blocks must be:
 ### Buffers
 
 - **TEMP** — Temporary scratch buffer for the current op.  
-  Auto-merged to MAIN after each op unless bound to a name or consumed. 
+  Auto-merged to MAIN after each op unless bound to a name or consumed.  
   Can be used as a shape to mask, stamp, or merge.
 
 - **MAIN** — The cumulative tile buffer.  
