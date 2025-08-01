@@ -33,7 +33,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 - Works as a CLI or Lua module
 - Zero dependencies, no GUI or editor required
 
-**Example:**
+####Example:
 ```
 > SIZE 8 8          	-- Set global tile dimensions
 > COLORS            	-- Define Global Palette
@@ -44,7 +44,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 : RedRing             -- Define a custom Shape Block, A red ring
   CIRC 4 4 6 red
   CIRC 4 4 3          -- Color undefined because we dont need it, Shape consumed by next Op
-  ERASE SHAPE         -- Erase last TEMP from the MAIN buffer (SHAPE consumes last TEMP)
+  ERASE SHAPE         -- Erase last TEMP from the MAIN buffer ('SHAPE' Op consumes last TEMP buffer)
 
 # tileA               -- Define an output Tile, this is what will be exported.
   RECT 0 0 8 8 wht
