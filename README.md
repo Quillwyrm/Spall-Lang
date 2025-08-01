@@ -139,9 +139,10 @@ LINE 0 0 8 8      -- Line with no name, used by MASK implicitly
 ERASE MASK        -- Erase previous op from MAIN
 ```
 
-This uses TEMP as a mask for the next op.
+`MASK` uses the last OPs TEMP buffer, allowing you to easily use a simple shape without needing it bound to a name.
+`ERASE` expects a Mask as input, a mask is **ANY** TEMP buffer (accessed with MASK), name bound buffer (OP : name), or Block buffer (named Block)
 
----
+
 
 ## Examples
 
