@@ -267,6 +267,19 @@ return {
 }
 ```
 
+### potential future custom format (transpiled to lua tables):
+```
+> META
+  NAME : tileset1
+  TAGS : tilesets, masks
+
+: room 4 4
+  0 1 1 0 
+  1 2 2 1 
+  1 2 2 1 
+  0 1 1 0
+```
+
 – `px` must be a 2D array of raw color indices  
 – Values are `0..n` where `0` is transparent (`C0`), others are user-defined (`C1`..`Cn`)  
 
