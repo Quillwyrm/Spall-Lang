@@ -153,7 +153,7 @@ Meta Ops (MASK, RAND etc.)
 
 
 ## 5. Iterators (LOOPS)
-> LOOPS syntax
+`> LOOPS` syntax
 
 How iterator values are injected
 
