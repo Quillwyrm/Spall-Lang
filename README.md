@@ -69,7 +69,7 @@ Its stack-based model and drawing primitives directly influenced Spall’s idea 
 As a stack-based language with postfix syntax and near-zero abstraction overhead, it was used in environments like early robotics, instrumentation, and NASA spacecraft.
 Forth inspired Spall’s focus on minimalism and linear execution.
 
-**`ASM`**, or Assembly, was the original spark. Spall was born from explorations of bytecode, intermediate representations (IR), and instruction streams,
+**`ASM`**, or Assembly, was the original spark; Spall was born from explorations of bytecode, intermediate representations (IR), and instruction streams,
 where simplicity, control, and direct intent are the core of expressive power.
 
 
