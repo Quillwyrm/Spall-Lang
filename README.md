@@ -15,16 +15,16 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 
 ---
 
-## 🔧 Core Concepts
+## Core Concepts
 
-### 🪵 Buffers
+### Buffers
 
 - **TMP** — Temporary scratch buffer for the current op.  
   Auto-merged to MAIN after each op unless saved or consumed.
 - **MAIN** — The cumulative tile buffer.  
   Built by merging TMPs over time.
 
-### 🔁 Merge Semantics
+### Merge Semantics
 
 | Situation                     | Result                            |
 |------------------------------|------------------------------------|
@@ -33,7 +33,7 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 | TMP is left unbound          | Implicit merge into MAIN on next op |
 | TMP is last op in tile block | Auto-merged to MAIN unless named |
 
-### 📦 Identifiers and Prefixes
+### Identifiers and Prefixes
 
 | Prefix | Meaning                             |
 |--------|-------------------------------------|
@@ -43,7 +43,7 @@ It outputs `.png` tiles — no GUI, no editor, just pure ops. (for now)
 
 ---
 
-## 🧱 Global Directives
+## Global Directives
 
 Use `>` to declare global settings.
 
@@ -71,7 +71,7 @@ LINE 0 0 7 7 red
 
 ---
 
-## 🧩 Blocks and Tiles
+## Blocks and Tiles
 
 ### Block Definitions (`: name w h`)
 
@@ -101,7 +101,7 @@ Example:
 
 ---
 
-## 🖍️ Drawing Ops
+## Drawing Ops
 
 Common operations that draw to TMP:
 
@@ -114,7 +114,7 @@ Color is optional; defaults to palette index 1.
 
 ---
 
-## 🪄 Stack Ops
+## Stack Ops
 
 ### TMP Naming
 
@@ -141,7 +141,7 @@ This uses TMP as a mask for the next op.
 
 ---
 
-## 📐 Examples
+## Examples
 
 ### A radial mask block
 
@@ -172,7 +172,7 @@ This uses TMP as a mask for the next op.
 
 ---
 
-## 🟩 Output
+## Output
 
 - Each `# name w h` → outputs `name.png`
 - Each `: name w h` → defines a reusable drawing block
@@ -180,7 +180,7 @@ This uses TMP as a mask for the next op.
 
 ---
 
-## 🧠 Why Spall?
+## Why Spall?
 
 - You want **procedural control** over tile graphics
 - You love **stack languages** or **IR-style graphics pipelines**
@@ -189,7 +189,7 @@ This uses TMP as a mask for the next op.
 
 ---
 
-## 🛠 Project Structure
+## Project Structure
 
 | Layer        | Role                                 |
 |--------------|--------------------------------------|
@@ -204,4 +204,3 @@ This uses TMP as a mask for the next op.
 
 MIT
 
-> _“Draw with operations. Compose like IR. Output pure pixels.”_
