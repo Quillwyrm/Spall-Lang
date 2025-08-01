@@ -1,11 +1,11 @@
 # Spall
+> Sequential Pixel Art Layer Language
 
-**Spall** is a stack-based DSL for generating 1-bit or palette-based pixel tiles using pure code.  
-It’s inspired by Forth, PostScript, and fantasy consoles — but targets pixel buffers directly.
+A declarative instruction flow for procedural pixel tiles, inspired by minimal stack languages (PostScript, Forth), BASIC, and ASM.
 
 ---
 
-## ✴️ What is Spall?
+## What is Spall?
 
 Spall is a procedural art language for describing how to *construct* sprites and tile graphics by composing operations 
 like `CIRC`, `LINE`, `GRID`, `MELD`, and `ERASE`. Each operation manipulates pixel buffers in an immediate-mode, linear stack flow.
