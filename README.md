@@ -36,21 +36,21 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 ### Example:
 
 ```
-> SIZE 8 8           -- Set global tile dimensions
-> COLORS             -- Define Global Palette
+> size 8 8            -- Set global tile dimensions
+> palette             -- Define Global Palette
   C1 #000000 : blk
   C2 #ffffff : wht
   C3 #ff0044 : red
 
 : RedRing            -- Define a custom Shape Block, A red ring
-  CIRC 4 4 6 red
-  CIRC 4 4 3         -- Color undefined because we dont need it, this Shape consumed by the next Op
-  ERASE SHAPE        -- Erase last TEMP from the MAIN buffer ('SHAPE' Op consumes last TEMP buffer)
+  circ red 4 4 6 
+  circ 4 4 3         -- Color undefined because we dont need it, this Shape consumed by the next Op
+  erase last         -- Erase last TEMP from the MAIN buffer ('SHAPE' Op consumes last TEMP buffer)
 	
 # tileA              -- Define an output Tile, this is what will be exported.
-  RECT 0 0 8 8 wht
+  rect wht 0 0 8 8 
   RedRing            -- Previously defined Shape 'RedRing' being drawn with no offsets
-  LINE 0 0 7 7 blk   -- A white diagonal line is drawn from top-left to bottom-right 
+  line blk 0 0 7 7   -- A white diagonal line is drawn from top-left to bottom-right 
 ```
 
 ## Inspirations
