@@ -47,7 +47,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
   circ 4 4 3         -- Color undefined because we dont need it, this Shape consumed by the next Op
   erase last         -- Erase last TEMP from the MAIN buffer ('SHAPE' Op consumes last TEMP buffer)
 	
-# tileA              -- Define an output Tile, this is what will be exported.
+# yourTile           -- Define an output Tile, this is what will be exported.
   rect wht 0 0 8 8 
   RedRing            -- Previously defined Shape 'RedRing' being drawn with no offsets
   line blk 0 0 7 7   -- A white diagonal line is drawn from top-left to bottom-right 
