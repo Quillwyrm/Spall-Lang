@@ -443,22 +443,34 @@ end
 -- Export --------------------------------------------------------------------------------------------------------------
 
 return {
+  -- Core constructors
   _PixelBuffer        = _PixelBuffer,
   _initContextState   = _initContextState,
   _initPalette        = _initPalette,
   _initColors         = _initColors,
-  _commitTemp         = _commitTemp,
-  _mergeUnion         = _mergeUnion,
 
+  -- Merge operations
+  _mergeUnion         = _mergeUnion,
+  _mergeSubtract      = _mergeSubtract,
+  _mergeIntersect     = _mergeIntersect,
+  _mergeExclude       = _mergeExclude,
+  _merge              = _merge,
+
+  -- Temp / tile ops
+  _commitTemp         = _commitTemp,
   _last               = _last,
+
+  -- Drawing primitives
   _Rect               = _Rect,
   _Blit               = _Blit,
-  _Circ               = _Circ, 
-  _Line               = _Line, 
+  _Circ               = _Circ,
+  _Line               = _Line,
   _draw               = _draw,
 
+  -- Debug / testing
   test_logBufferToConsole = test_logBufferToConsole,
-  test_outputBufferToPPM  = test_outputBufferToPPM, 
+  test_outputBufferToPPM  = test_outputBufferToPPM,
 
+  -- Global state
   _context = _context,
 }
