@@ -7,17 +7,17 @@
 -- _PixelBuffer(width, height)
 -- Constructs a 2D pixel buffer table (indexed as [y][x]) with .w and .h metadata
 local _PixelBuffer = function(width, height, x_pos, y_pos)
-	local buffer = {}
+  local buffer = {}
 
-	buffer.w = width
-	buffer.h = height
+  buffer.w = width
+  buffer.h = height
 
-	buffer.x = x_pos or nil
-	buffer.y = y_pos or nil
+  buffer.x = x_pos or nil
+  buffer.y = y_pos or nil
 
-	for y = 1, height do
-		buffer[y] = {}
-		for x = 1, width do
+  for y = 1, height do
+    buffer[y] = {}
+    for x = 1, width do
             buffer[y][x] = 0 -- C0 = transparent
           end
         end
@@ -26,44 +26,44 @@ local _PixelBuffer = function(width, height, x_pos, y_pos)
 
 -- _initPalette()
 local _initPalette = function()
-	return {
-		C0 = 0, none = 0,
-		C2 = 1, blk = 1,
-		C1 = 2, wht = 2,
-		C3 = 3, red = 3,
-		C4 = 4, grn = 4,
-		C5 = 5, blu = 5,
-		C6 = 6, yel = 6,
-		C7 = 7, mag = 7,
-		C8 = 8, cya = 8,
-	}
+  return {
+    C0 = 0, none = 0,
+    C2 = 1, blk = 1,
+    C1 = 2, wht = 2,
+    C3 = 3, red = 3,
+    C4 = 4, grn = 4,
+    C5 = 5, blu = 5,
+    C6 = 6, yel = 6,
+    C7 = 7, mag = 7,
+    C8 = 8, cya = 8,
+  }
 end
 
 -- _initColors()
 local _initColors = function()
-	return {
-		[0] = { 0, 0, 0, 0 },
-		[1] = { 0, 0, 0 },
-		[2] = { 255, 255, 255 },
+  return {
+    [0] = { 0, 0, 0, 0 },
+    [1] = { 0, 0, 0 },
+    [2] = { 255, 255, 255 },
 
-		[3] = { 255, 0, 0 },
-		[4] = { 0, 255, 0 },
-		[5] = { 0, 0, 255 },
-		[6] = { 255, 255, 0 },
-		[7] = { 255, 0, 255 },
-		[8] = { 0, 255, 255 },
-	}
+    [3] = { 255, 0, 0 },
+    [4] = { 0, 255, 0 },
+    [5] = { 0, 0, 255 },
+    [6] = { 255, 255, 0 },
+    [7] = { 255, 0, 255 },
+    [8] = { 0, 255, 255 },
+  }
 end
 
 -- _initContextState()
 local _initContextState = function()
-	return {
-		palette = _initPalette(),
-		colors  = _initColors(),
-		temp    = nil,
-		tiles   = {},
-		user    = {},
-	}
+  return {
+    palette = _initPalette(),
+    colors  = _initColors(),
+    temp    = nil,
+    tiles   = {},
+    user    = {},
+  }
 end
 
 
@@ -115,7 +115,7 @@ end
 
 
 local _last = function()
-	return _context.temp
+  return _context.temp
 end
 
 -- Drawing Primitives ----------------------------------------------------------------------------------------------------
@@ -218,25 +218,25 @@ end
 -- Debug --------------------------------------------------------------------------------------------------------------
 
 local test_logBufferToConsole = function(name, buf)
-	local width  = buf.w
-	local height = buf.h
-	print(name .. string.rep("-", 20 - #name))
-	print("w: " .. width .. " - h: " .. height)
-	print(string.rep("-", 4 + (width * 2)))
-	io.write("   X")
-	for x = 1, width do io.write(" " .. x) end
-	print()
-	io.write(" Y +")
-	io.write(string.rep("-", width * 2))
-	print()
-	for y = 1, height do
-		io.write(" " .. y .. " |")
-		for x = 1, width do
-			io.write(" " .. tostring(buf[y][x] or 0))
-		end
-		print()
-	end
-	print(string.rep("-", 4 + (width * 2)))
+  local width  = buf.w
+  local height = buf.h
+  print(name .. string.rep("-", 20 - #name))
+  print("w: " .. width .. " - h: " .. height)
+  print(string.rep("-", 4 + (width * 2)))
+  io.write("   X")
+  for x = 1, width do io.write(" " .. x) end
+  print()
+  io.write(" Y +")
+  io.write(string.rep("-", width * 2))
+  print()
+  for y = 1, height do
+    io.write(" " .. y .. " |")
+    for x = 1, width do
+      io.write(" " .. tostring(buf[y][x] or 0))
+    end
+    print()
+  end
+  print(string.rep("-", 4 + (width * 2)))
 end
 
 
@@ -265,21 +265,21 @@ end
 -- Export --------------------------------------------------------------------------------------------------------------
 
 return {
-	_PixelBuffer        = _PixelBuffer,
-	_initContextState   = _initContextState,
-	_initPalette        = _initPalette,
-	_initColors         = _initColors,
-	_commitTemp         = _commitTemp,
-	_mergeUnion         = _mergeUnion,
+  _PixelBuffer        = _PixelBuffer,
+  _initContextState   = _initContextState,
+  _initPalette        = _initPalette,
+  _initColors         = _initColors,
+  _commitTemp         = _commitTemp,
+  _mergeUnion         = _mergeUnion,
 
-	_last               = _last,
-	_Rect               = _Rect,
-	_Blit               = _Blit,
+  _last               = _last,
+  _Rect               = _Rect,
+  _Blit               = _Blit,
   _Circ               = _Circ, 
   _Line               = _Line, 
 
-	test_logBufferToConsole = test_logBufferToConsole,
-	test_outputBufferToPPM  = test_outputBufferToPPM, 
+  test_logBufferToConsole = test_logBufferToConsole,
+  test_outputBufferToPPM  = test_outputBufferToPPM, 
 
-	_context = _context,
+  _context = _context,
 }
