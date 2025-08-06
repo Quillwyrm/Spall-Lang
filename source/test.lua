@@ -4,6 +4,8 @@ local _context      = core._context
 local _Rect         = core._Rect
 local _Blit         = core._Blit
 local _Circ         = core._Circ
+local _Line         = core._Line
+
 local _commitTemp   = core._commitTemp
 local log           = core.test_logBufferToConsole
 
@@ -22,7 +24,13 @@ _context.tiles["demo"] = core._PixelBuffer(8, 8)
 _context.temp = _Circ(red, 4, 4, 6)
 _commitTemp("demo")
 
-_context.temp = _Circ(wht, 4, 4, 2)
+_context.temp = _Circ(grn, 4, 4, 2)
+_commitTemp("demo")
+
+_context.temp = _Line(wht, 1, 1, 8, 8)
+_commitTemp("demo")
+
+_context.temp = _Line(grn, 8, 1, 1, 8)
 _commitTemp("demo")
 
 

@@ -129,8 +129,7 @@ local _Rect = function(color, x, y, w, h)
       buf[dy][dx] = color                             -- fill entire region with color
     end
   end
-  return buf                                          -- positioned shape buffer
-end
+return buf end                                          -- positioned shape buffer
 
 
 
@@ -138,35 +137,82 @@ end
 -- Returns a 1×1 shape buffer with a single pixel at (x, y)
 local _Blit = function(color, x, y)
   local buf = _PixelBuffer(1, 1, x, y)                -- 1×1 buffer at position (x, y)
-  buf[1][1] = color                                    -- set pixel
-  return buf                                          -- positioned shape buffer
-end
+  buf[1][1] = color                                   -- set pixel
+return buf end                                        -- positioned shape buffer
 
+
+
+-- _Circ(color, cx, cy, diameter)
+-- Returns a circular shape buffer with center at (cx, cy) and pixel width = `diameter`
+-- Shape is centered around origin; buffer is tightly packed and positioned at top-left (ox, oy)
 local _Circ = function(color, cx, cy, diameter)
-  local size = diameter
-  local r = diameter / 2
-  local r2 = (r - 0.25)^2  -- tighter fit
+  local size = diameter                               -- buffer width and height
+  local r = diameter / 2                              -- radius as float
+  local r2 = (r - 0.25)^2                             -- radius², biased for tighter fill (pixel perfect)
 
-  -- Compute top-left of buffer so (cx, cy) is center of shape
-  local ox = math.floor(cx - r + 1)
-  local oy = math.floor(cy - r + 1)
+  local ox = math.floor(cx - r + 1)                   -- buffer x-pos so circle center lands on (cx, cy)
+  local oy = math.floor(cy - r + 1)                   -- buffer y-pos (same logic for vertical)
 
-  local buf = _PixelBuffer(size, size, ox, oy)
+  local buf = _PixelBuffer(size, size, ox, oy)        -- allocate centered, minimal buffer
 
-  local mid = (diameter + 1) / 2
+  local mid = (diameter + 1) / 2                      -- circle center in local buffer coords
 
   for py = 1, size do
     for px = 1, size do
-      local dx = px - mid
-      local dy = py - mid
+      local dx = px - mid                             -- x offset from center
+      local dy = py - mid                             -- y offset from center
       if dx * dx + dy * dy <= r2 then
-        buf[py][px] = color
+        buf[py][px] = color                           -- fill pixel if inside circle
       end
     end
+  end
+return buf end                                        -- positioned shape buffer
+
+
+
+-- _Line(color, x_start, y_start, x_end, y_end)
+-- Returns a shape buffer containing a line from (x_start, y_start) to (x_end, y_end) in `color`
+-- Buffer is minimal and positioned at the top-left of the bounding box
+local _Line = function(color, x_start, y_start, x_end, y_end)
+  local min_x = math.min(x_start, x_end)
+  local min_y = math.min(y_start, y_end)
+
+  local max_x = math.max(x_start, x_end)
+  local max_y = math.max(y_start, y_end)
+
+  local width  = max_x - min_x + 1
+  local height = max_y - min_y + 1
+
+  local buf = _PixelBuffer(width, height, min_x, min_y) -- buffer positioned at top-left of line bounds
+
+  -- Translate line into local buffer space
+  local x0 = x_start - min_x + 1
+  local y0 = y_start - min_y + 1
+  local x1 = x_end   - min_x + 1
+  local y1 = y_end   - min_y + 1
+
+  -- Bresenham's Line Algorithm
+  local dx = math.abs(x1 - x0)
+  local dy = math.abs(y1 - y0)
+  local sx = (x0 < x1) and 1 or -1
+  local sy = (y0 < y1) and 1 or -1
+  local err = dx - dy
+
+  while true do
+    if buf[y0] and buf[y0][x0] ~= nil then
+      buf[y0][x0] = color
+    end
+
+    if x0 == x1 and y0 == y1 then break end
+    local e2 = 2 * err
+    if e2 > -dy then err = err - dy; x0 = x0 + sx end
+    if e2 < dx  then err = err + dx; y0 = y0 + sy end
   end
 
   return buf
 end
+
+
 
 
 -- Debug --------------------------------------------------------------------------------------------------------------
@@ -230,6 +276,7 @@ return {
 	_Rect               = _Rect,
 	_Blit               = _Blit,
   _Circ               = _Circ, 
+  _Line               = _Line, 
 
 	test_logBufferToConsole = test_logBufferToConsole,
 	test_outputBufferToPPM  = test_outputBufferToPPM, 
