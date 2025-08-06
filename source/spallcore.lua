@@ -120,16 +120,16 @@ end
 
 -- Drawing Primitives ----------------------------------------------------------------------------------------------------
 
--- _Rect(color, x, y, w, h)
--- Returns a shape buffer of size w×h filled with `color`, positioned at (x, y)
-local _Rect = function(color, x, y, w, h)
-  local buf = _PixelBuffer(w, h, x, y)                -- allocate minimal buffer at (x, y)
-  for dy = 1, h do
-    for dx = 1, w do
-      buf[dy][dx] = color                             -- fill entire region with color
+-- _Rect(color, origin_x, origin_y, width, height)
+-- Returns a shape buffer of size width×height filled with `color`, positioned at (origin_x, origin_y)
+local _Rect = function(color, origin_x, origin_y, width, height)
+  local buf = _PixelBuffer(width, height, origin_x, origin_y)    -- allocate minimal buffer at (origin_x, origin_y)
+  for py = 1, height do
+    for px = 1, width do
+      buf[py][px] = color                                        -- fill entire region with color
     end
   end
-return buf end                                          -- positioned shape buffer
+return buf end                                                   -- positioned shape buffer
 
 
 
@@ -142,26 +142,26 @@ return buf end                                        -- positioned shape buffer
 
 
 
--- _Circ(color, cx, cy, diameter)
--- Returns a circular shape buffer with center at (cx, cy) and pixel width = `diameter`
--- Shape is centered around origin; buffer is tightly packed and positioned at top-left (ox, oy)
-local _Circ = function(color, cx, cy, diameter)
+-- _Circ(color, center_x, center_y, diameter)
+-- Returns a circular shape buffer with center at (center_x, center_y) and pixel width = `diameter`
+-- Shape is centered around origin; buffer is tightly packed and positioned at top-left (origin_x, origin_y)
+local _Circ = function(color, center_x, center_y, diameter)
   local size = diameter                               -- buffer width and height
   local r = diameter / 2                              -- radius as float
   local r2 = (r - 0.25)^2                             -- radius², biased for tighter fill (pixel perfect)
 
-  local ox = math.floor(cx - r + 1)                   -- buffer x-pos so circle center lands on (cx, cy)
-  local oy = math.floor(cy - r + 1)                   -- buffer y-pos (same logic for vertical)
+  local origin_x = math.floor(center_x - r + 1)                   -- buffer x-pos so circle center lands on (center_x, center_y)
+  local origin_y = math.floor(center_y - r + 1)                   -- buffer y-pos (same logic for vertical)
 
-  local buf = _PixelBuffer(size, size, ox, oy)        -- allocate centered, minimal buffer
+  local buf = _PixelBuffer(size, size, origin_x, origin_y)        -- allocate centered, minimal buffer
 
   local mid = (diameter + 1) / 2                      -- circle center in local buffer coords
 
   for py = 1, size do
     for px = 1, size do
-      local dx = px - mid                             -- x offset from center
-      local dy = py - mid                             -- y offset from center
-      if dx * dx + dy * dy <= r2 then
+      local offset_x = px - mid                             -- x offset from center
+      local offset_y = py - mid                             -- y offset from center
+      if offset_x * offset_x + offset_y * offset_y <= r2 then
         buf[py][px] = color                           -- fill pixel if inside circle
       end
     end
@@ -170,47 +170,52 @@ return buf end                                        -- positioned shape buffer
 
 
 
--- _Line(color, x_start, y_start, x_end, y_end)
--- Returns a shape buffer containing a line from (x_start, y_start) to (x_end, y_end) in `color`
--- Buffer is minimal and positioned at the top-left of the bounding box
-local _Line = function(color, x_start, y_start, x_end, y_end)
-  local min_x = math.min(x_start, x_end)
-  local min_y = math.min(y_start, y_end)
+-- _Line(color, start_x, start_y, end_x, end_y)
+-- Returns a shape buffer containing a line from (start_x, start_y) to (end_x, end_y) in `color`
+-- Buffer is tightly sized and positioned at the top-left of the line’s bounding box
+local _Line = function(color, start_x, start_y, end_x, end_y)
+  local min_x = math.min(start_x, end_x)                          -- bounding box origin x
+  local min_y = math.min(start_y, end_y)                          -- bounding box origin y
 
-  local max_x = math.max(x_start, x_end)
-  local max_y = math.max(y_start, y_end)
+  local max_x = math.max(start_x, end_x)                          -- bounding box extent x
+  local max_y = math.max(start_y, end_y)                          -- bounding box extent y
 
-  local width  = max_x - min_x + 1
-  local height = max_y - min_y + 1
+  local buffer_width  = max_x - min_x + 1                         -- buffer size in x
+  local buffer_height = max_y - min_y + 1                         -- buffer size in y
 
-  local buf = _PixelBuffer(width, height, min_x, min_y) -- buffer positioned at top-left of line bounds
+  local buffer = _PixelBuffer(buffer_width, buffer_height, min_x, min_y)
 
-  -- Translate line into local buffer space
-  local x0 = x_start - min_x + 1
-  local y0 = y_start - min_y + 1
-  local x1 = x_end   - min_x + 1
-  local y1 = y_end   - min_y + 1
+  -- Translate line coordinates into local buffer space (1-indexed)
+  local px = start_x - min_x + 1                             -- current x position in buffer
+  local py = start_y - min_y + 1                             -- current y position in buffer
 
-  -- Bresenham's Line Algorithm
-  local dx = math.abs(x1 - x0)
-  local dy = math.abs(y1 - y0)
-  local sx = (x0 < x1) and 1 or -1
-  local sy = (y0 < y1) and 1 or -1
-  local err = dx - dy
+  local target_x = end_x   - min_x + 1                            -- target x position in buffer
+  local target_y = end_y   - min_y + 1                            -- target y position in buffer
+
+  -- Bresenham's Line Algorithm (integer-only)
+  local delta_x = math.abs(target_x - px)
+  local delta_y = math.abs(target_y - py)
+
+  local step_x = (px < target_x) and 1 or -1
+  local step_y = (py < target_y) and 1 or -1
+
+  local error_term = delta_x - delta_y
 
   while true do
-    if buf[y0] and buf[y0][x0] ~= nil then
-      buf[y0][x0] = color
+    if buffer[py] and buffer[py][px] ~= nil then
+      buffer[py][px] = color                            -- draw pixel if in bounds
     end
 
-    if x0 == x1 and y0 == y1 then break end
-    local e2 = 2 * err
-    if e2 > -dy then err = err - dy; x0 = x0 + sx end
-    if e2 < dx  then err = err + dx; y0 = y0 + sy end
+    if px == target_x and py == target_y then break end
+
+    local error2 = 2 * error_term
+    if error2 > -delta_y then error_term = error_term - delta_y; px = px + step_x end
+    if error2 <  delta_x then error_term = error_term + delta_x; py = py + step_y end
   end
 
-  return buf
+  return buffer                                                   -- positioned shape buffer
 end
+
 
 
 
