@@ -1,10 +1,14 @@
 SPALL — Sequential Pixel Art Layer Language
-A declarative instruction stream for procedural pixel tiles, inspired by minimal stack languages (PostScript, Forth), BASIC, and ASM.
+A declarative instruction flow for procedural pixel tiles, inspired by minimal stack languages (PostScript, Forth), BASIC, and ASM.
 
 Buffers: TMP & MAIN
 TMP = the current OP in isolation (CIRC 4 4 4; TMP = just the drawn circ), TMP is a virtual scratch buffer; never survives unless explicitly saved ( CIRC 4 4 4 : circ1 )
 
 MAIN = the current CUMULATIVE buffer, that TMP's merge into (the TILE at each stage, with all OP's applied)
+
+
+
+
 
 🧠 Merge Rules (Finalized)
 Situation	Result
@@ -30,63 +34,26 @@ Prefix	Meaning
 
 
 
--- Example
-: RadialMask 8 8  -- Bind a Block name and size (w,h)
-  CIRC 4 4 3
-  GRID 8 8
-  ERASE MASK 
 
-# Tile0 8 8       -- Bind a Tile name and size (outputs a .png)
-  RECT 0 0 8 8
-  ERASE RadialMask 
-  LINE 0 0 7 7
 
-----------------
-> TILESIZE 8 8
-> COLORS
-  C1 #121212 : blk
-  C2 #ffffff : wht
-  C3 #ff0044 : red
 
-: EyeFlash
-  CIRC 4 4 3 red
-  CIRC 4 4 2 blk
-  ERASE MASK
 
-# idle_face
-  RECT 0 0 8 8 blk
-  EyeFlash ERASE
-  LINE 0 0 7 7 wht
 
------------------
 
-> TILESIZE 8 8
 
-> COLORS
-  C1 #000000 : blk
-  C2 #ffffff : wht
-  C3 #ff0044 : red
-  C4 #44ccff : ice
 
-: SparkCore
-  CIRC 4 4 2 red
-  CIRC 4 4 1 ice
-  ERASE MASK
 
-: CrossLines
-  LINE 0 0 7 7 : diag1
-  LINE 0 7 7 0 : diag2
-  MELD diag1 diag2 OR : cross
 
-: FrameBox
-  RECT 0 0 8 8 blk
-  RECT 1 1 6 6 wht
-  ERASE MASK
 
-# charged_core
-  SparkCore         -- draws into MAIN
-  CrossLines ERASE  -- uses TMP 'cross' to erase
-  FrameBox          -- composite border
+
+
+
+
+
+
+
+
+
 
 
 🎛️ Spall REPL Editor Flow (Love2D + Lua)

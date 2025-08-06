@@ -1,0 +1,82 @@
+
+--= Global Directives & Config
+> palette        -- Indexed Palette declaration
+> size           -- Global Tile size (optional, can be set per tile `# tile 8 8`)
+> vars           -- Global Static vars 
+> rand           -- Global Random vars
+> loops          -- Global Iterated vars
+> frames         -- Global Frame vars 
+> import         -- `.spd` Imports, each `.spd` file is bound to a name to use its Shape.
+> meta           -- Metadata; Author, Name, Version, Tags(for SpallEd)
+
+--= User Defs
+: blockName      -- Bind a set of operations to a name, to use the final shape.
+
+# tile_name      -- Name a tile to output
+
+<expr/ops> : name    -- Name an operation or expression to use its TEMP buffer or an expressions value
+
+--= Draw Ops
+--Shape Primatives
+blit ?c x y 
+line ?c x1 y1 x2 y2 
+rect ?c x y w h 
+circ ?c x y r 
+-- all shape prims can be appended with 'Mod Ops'
+
+--Utility Draw Ops
+mySprite ?c x y  -- draw a bound buffer (block or local)
+grid               -- maybe has offset/nudge --WIP***
+scatter            -- seeded distribution of n Shapes --WIP***
+
+--= Mod Ops | usage: [blit 4 4 stroke C1 2 OUT]
+stroke c w MODE             -- inline 'Mod Op' to add a stroke to a shape and set its properties.
+
+--= Transform Ops
+trace shape c w MODE       -- *** potential one line shape stroke --WIP***
+
+spin shape d                    --WIP*** d = degrees
+shift shape x y ?fill                --WIP*** cut paste shift
+flip shape a                    --WIP*** a = axis
+mirror MODE
+
+merge shape shape  --  merge two shapes, with merge mode ENUMS
+erase shape        -- Erase a shape from the MAIN buffer. No shape erases MAIN buffer maybe
+invert ?shape      -- Invert shape or MAIN buffer 
+
+--= Utility Ops
+last               -- Used in place of a shape to consume the previous TEMP buffer 
+
+-- others WIP ***
+
+warps**
+or future pattern ops (e.g. stripes, checker, dither)
+wrap
+noise MODE shape density
+
+
+
+
+
+
+
+MVP IMPL:
+
+> palette
+> size
+# tile
+
+: name
+
+blit
+line
+rect
+circ
+
+stroke
+
+merge
+erase
+invert
+
+last
