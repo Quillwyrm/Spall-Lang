@@ -419,7 +419,7 @@ end
 
 -- outputBufferToPPM(buf, path)
 -- Writes a .ppm (P3) file from a pixel buffer and current palette (color index → RGB)
--- Useful for previewing Spall output in FilePilot or converting to PNG later
+-- Useful for previewing Spall output in an image viewer or converting to PNG later
 local test_outputBufferToPPM = function(buf, path, palette)
   assert(buf and buf.w and buf.h, "Invalid buffer")
   assert(palette, "Palette (color index → RGB) required")
