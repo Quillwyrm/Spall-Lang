@@ -1,7 +1,6 @@
 
 -- SPALL INTERNAL DSL CORE --
 
-
 -- Constructors & Initialization ----------------------------------------------------------------------------------------
 
 -- **`_PixelBuffer(width, height, x_pos?, y_pos?)`**  
@@ -222,7 +221,7 @@ local _commitTemp = function(tile_name)
   local existing = _context.tiles[tile_name]
 
   if existing then
-    local merged = _mergeUnion(existing, temp)              -- merge temp into existing tile using union logic
+    local merged = _mergeUnion(temp, existing)              -- merge temp into existing tile using union logic
     _context.tiles[tile_name] = merged                      -- update tile with merged result
   else
     _context.tiles[tile_name] = temp                        -- first write: assign directly
@@ -365,32 +364,32 @@ end
 -- **`_draw(source_buffer, color, target_x, target_y)`**  
 -- > Copy and recolor a buffer, placing it at a new position.  
 -- Input buffer is untouched; result is a fresh recolored + repositioned copy.  
+-- Cannot recolor to `0` (transparent), as that would strip buffer structure.  
 -- `source_buffer` - A shape buffer to reuse.  
--- `color` - New color to apply to all non-zero pixels.  
+-- `color` - New color to apply to all non-zero pixels (must not be 0).  
 -- `target_x` - X-position to place the buffer.  
 -- `target_y` - Y-position to place the buffer.  
 -- `return` - A new buffer placed and recolored.  
 local _draw = function(source_buffer, color, target_x, target_y)
   assert(source_buffer and source_buffer.w and source_buffer.h,
     "_draw: source_buffer must be a valid pixel buffer")
+  assert(color ~= 0, "_draw: cannot recolor to transparent (index 0)")
 
   local width  = source_buffer.w
   local height = source_buffer.h
 
-  -- Copy buffer contents, with optional recoloring
   local drawn = _PixelBuffer(width, height, target_x, target_y)
 
   for py = 1, height do
     for px = 1, width do
       local src_color = source_buffer[py][px]
       if src_color and src_color ~= 0 then
-        drawn[py][px] = color or src_color
+        drawn[py][px] = color
       end
     end
   end
+return drawn end
 
-  return drawn
-end
 
 
 -- Debug --------------------------------------------------------------------------------------------------------------

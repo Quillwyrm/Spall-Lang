@@ -1,0 +1,81 @@
+spall is a procedural 2D pixel buffer composition language, used for generating pixel tiles, masks, and logic buffers. it is declarative, postfix, and purely compositional. it’s inspired by postscript, forth, basic, and IR-style instruction streams. its execution model is dead simple: global config up top, reusable shape blocks in the middle, and named tile outputs at the bottom. there is no control flow, no state mutation, no branching, no subroutine nesting. everything executes top-to-bottom. all ops emit temporary pixel buffers that can be named, committed, merged, or discarded. the language has 1-based indexing, strict pixel alignment, and targets visual predictability for use in 1-bit or palette-based art generation.
+
+the core model consists of:
+
+Base (was MAIN): a tile’s cumulative buffer (mutable by merging in shapes)
+
+Temp (was TEMP): a temp buffer emitted by each shape op (replaced after each op unless named)
+
+User (was SHAPE): any buffer stored in a named binding (like a : block or : name)  -- _context.user is actually for Block buffers only, i need to rename it
+
+LAST: refers to the most recent unnamed TEMP buffer
+
+ops like blit, line, rect, and circ generate buffers. these are optionally named, or implicitly merged into MAIN (i.e., the named tile buffer) if not intercepted. shapes can also be modified with stroke or shadow, which are postfix-style “mod ops” that consume the previous shape buffer and return a modified one (e.g., a filled circle becomes a stroked one). merge, erase, and draw compose or transform existing buffers. merge uses modes like UNION, SUBTRACT, INTERSECT, and EXCLUDE.
+
+everything is based on pixel buffers. _PixelBuffer(w, h, x, y) creates a buffer of width w and height h positioned at absolute tile coords (x, y). each buffer is a Lua table indexed as [y][x] with .w, .h, .x, .y metadata. pixels hold palette index values (0 is always transparent, aliased as none). color palette is defined up top using > palette, where e.g. blk = 1, wht = 2, red = 3, etc. the DSL internally compiles down to Lua, where the ops are implemented as pure buffer-returning functions (e.g., _Rect, _Circ, _Blit, _Line, etc.).
+
+_commitTemp(name) merges _context.temp into the named tile buffer (_context.tiles[name]) using _mergeUnion (or another merge strategy). this is how buffers become part of the final tile output. if the tile doesn’t exist yet, it is created from temp as-is. if it exists, temp is merged into it. temp is always cleared after committing. blocks (defined with : name) bind their final buffer to _context.user[name] instead, using _commitTemp("blockname") — the same commit semantics, just a different namespace.
+
+a _draw(buffer, color, x, y) op was added to allow “recolor and place” for shape reuse. this lets you e.g. define a circle once, then recolor and reuse it many times. it returns a new buffer, recolored and repositioned. this is how Spall will implement drawing user-defined blocks (e.g., in the DSL, myCircle red 4 4 desugars to _draw(_context.user.myCircle, red, 4, 4)).
+
+merge ops (_mergeUnion, _mergeSubtract, _mergeIntersect, _mergeExclude) are all pure functions that take (src, dst) and return a new merged buffer. src must have .x and .y metadata (a positioned shape), while dst is usually a tile buffer. the logic is:
+
+union: overwrite dst with src if src is non-zero
+
+subtract: zero out dst where src is non-zero
+
+intersect: keep dst only where both dst and src are non-zero
+
+exclude: keep dst only where exactly one of dst or src is non-zero (xor logic)
+
+all of these allocate a new output buffer with the same size as dst and copy over pixels using per-pixel logic.
+
+drawing ops:
+
+_Rect(color, x, y, w, h) creates a filled rectangle buffer at (x, y)
+
+_Blit(color, x, y) creates a 1×1 buffer with a single colored pixel
+
+_Circ(color, cx, cy, diameter) creates a filled circle centered at (cx, cy) with a given diameter. internally this centers the buffer and computes the fill using radius² distance checks with a slight bias (r - 0.25) to tighten the circle to pixel edges.
+
+_Line(color, x1, y1, x2, y2) uses Bresenham’s algorithm to return a minimal buffer that contains a line from (x1, y1) to (x2, y2)
+
+the entire system is 1-indexed and assumes (1,1) is the top-left of a tile. all buffer coordinates, all shape placements, and all merges follow this indexing convention. pixel values are indexed color IDs. C0 = 0 is always transparent.
+
+log/debug helpers:
+
+test_logBufferToConsole(name, buf) renders a buffer to console as ASCII grid with index values
+
+test_outputBufferToPPM(buf, path, palette) writes a .ppm image (P3 ASCII format) for visual inspection
+
+user has committed to descriptive, wide-ass code. all variable names are expanded (e.g. origin_x, buffer_width, center_y) — no dx, dy, x0, y1 style unless they are internal. all function names are prefixed with _, as this is the core implementation — later DSL sugar will compile down to these primitives. all ops are pure. no OOP. no metatables. all context lives in _context, which contains the global palette, colors, and buffers (tiles and user).
+
+user is actively building out the MVP spec. MVP includes:
+
+primitives: blit, line, rect, circ
+
+modifiers: stroke, shadow
+
+transforms: erase, merge, draw, last
+
+metadata: > palette, > size, # tile, : block
+
+plus the internal merge modes: UNION, SUBTRACT, INTERSECT, EXCLUDE
+
+eventually, stroke and shadow will be modifiers that apply to any shape buffer (probably consuming temp). also planned are recolor, flip, mirror, scatter, and others — but those are post-MVP.
+
+DSL syntax is postfix and column-stable. shape ops always begin a line. e.g.
+
+arduino
+Copy
+Edit
+circ red 4 4 5 stroke blk 1 OUT
+stroke is a mod-op: it modifies the shape that comes before it. OUT is an enum mode. all enums (like UNION, IN, OUT, etc.) are uppercase. all other keywords and identifiers are lowercase.
+
+user will implement a transpiler from DSL to core Lua API once core ops are stable. user has strong aversion to magic behavior, OOP idioms, or overcompressed notation. everything should be readable, explicit, and compositional.
+
+user stores block buffers in _context.user["block_name"] and tile buffers in _context.tiles["tile_name"]. _context.temp is the transient buffer used between ops. _commitTemp(name) is called manually only when a shape is not bound to a name — if it's bound, that binding is assigned directly instead of committing.
+
+finally, user is using test.lua files to drive manual testing and visual experiments. they're generating .ppm files and inspecting them with nomacs. DSL sugar like tile_name color x y will compile to _context.temp = _draw(buffer, color, x, y); _commitTemp("tile_name").
+
+this prompt should boot a new chat directly into core implementation work — assume all this context has already happened.
