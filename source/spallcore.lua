@@ -36,24 +36,15 @@ end
 -- `return` - A palette table: `{ name → index, Cn → index }`
 local _initPalette = function()
   return {
-    C0 = 0,
-    none = 0,
-    C1 = 1,
-    blk = 1,
-    C2 = 2,
-    wht = 2,
-    C3 = 3,
-    red = 3,
-    C4 = 4,
-    grn = 4,
-    C5 = 5,
-    blu = 5,
-    C6 = 6,
-    yel = 6,
-    C7 = 7,
-    mag = 7,
-    C8 = 8,
-    cya = 8,
+    C0 = 0, none = 0,
+    C1 = 1, blk = 1,
+    C2 = 2, wht = 2,
+    C3 = 3, red = 3,
+    C4 = 4, grn = 4,
+    C5 = 5, blu = 5,
+    C6 = 6, yel = 6,
+    C7 = 7, mag = 7,
+    C8 = 8, cya = 8,
   }
 end
 
@@ -76,6 +67,7 @@ local _initColors = function()
     [8] = { 0, 255, 255 },
   }
 end
+
 -- **`_initContextState()`**
 -- > Initialize global Spall context state.
 -- Holds the current palette, color table, temp buffer, and named tiles/user blocks.
