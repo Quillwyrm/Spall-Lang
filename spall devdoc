@@ -1,63 +1,88 @@
-
 --= Global Directives & Config
-> palette        -- Indexed Palette declaration
-> size           -- Global Tile size (optional, can be set per tile `# tile 8 8`)
-> vars           -- Global Static vars 
-> rand           -- Global Random vars
-> loops          -- Global Iterated vars
-> frames         -- Global Frame vars 
-> import         -- `.spd` Imports, each `.spd` file is bound to a name to use its Shape.
-> meta           -- Metadata; Author, Name, Version, Tags(for SpallEd)
+> palette         -- Indexed palette declaration  
+> size            -- Global tile size (optional; can be set per tile with `# tile 8 8`)  
+> vars            -- Global static vars  
+> rand            -- Global random vars  
+> loops           -- Global iterated vars  
+> frames          -- Global frame vars  
+> import          -- `.spd` imports; each file bound to a name to use its shape  
+> meta            -- Metadata: author, name, version, tags (for SpallEd)
 
 --= User Defs
-: blockName      -- Bind a set of operations to a name, to use the final shape.
+: blockName         -- Bind a set of operations to a name, capturing the final buffer  
+- polyName          -- Define a shape path (polydef); list of verts, straight or bezier 
+# tile_name         -- Define a tile to output
+<expr/ops> : name   -- Name an operation or expression result for reuse  
 
-# tile_name      -- Name a tile to output
+--= Draw Ops  (all [c] default to C1 if omitted)
+-- Shape Primitives  
+blit [c] x y                            -- Place single pixel  
+line [c] x1 y1 x2 y2                    -- Draw line  
+rect [c] x y w h <drawmod>              -- Draw filled rectangle  
+circ [c] x y r <drawmod>                -- Draw filled circle  
+oval [c] x y w h <drawmod>              -- Draw filled oval (ellipse) inside w×h box 
+arc  [c] x y r a1 a2 [w] <drawmod>      -- Arc stroke from a1→a2; Mod: stroke width & placement  
+pie  [c] x y r a1 a2 <drawmod>          -- Filled wedge; optional stroke   
 
-<expr/ops> : name    -- Name an operation or expression to use its TEMP buffer or an expressions value
+name [c] x y                            -- Draw user-bound buffer literal at (x, y), optional recolor
+grid [c] x y cols rows w h <gridmod>    -- Draw grid lines;  -- w/h = cell size; origin = top-left  
+-                                       -- Mods: - <stagger MODE px> (Modes: ROW | COL)  
+-								                                 - <wave MODE > ***WIP***  
 
---= Draw Ops
---Shape Primatives
-blit ?c x y 
-line ?c x1 y1 x2 y2 
-rect ?c x y w h 
-circ ?c x y r 
--- all shape prims can be appended with 'Mod Ops'
+flood c x y                             -- Flood-fill BASE buffer from (x,y) with color `c` (pure op, emits TEMP)
 
---Utility Draw Ops
-mySprite ?c x y  -- draw a bound buffer (block or local)
-grid               -- maybe has offset/nudge --WIP***
-scatter            -- seeded distribution of n Shapes --WIP***
+--= Draw Mods (inline with draw ops, never emit buffers)
+<stroke c w MODE>         -- Add stroke to shape; Modes: OUT | MID | IN  
+<shadow c d a>            -- Add shadow; `d` = depth, `a` = angle  
 
---= Mod Ops | usage: [blit 4 4 stroke C1 2 OUT]
-stroke c w MODE             -- inline 'Mod Op' to add a stroke to a shape and set its properties.
+--= Utility Draw Ops
+mySprite [c] x y                          -- Draw a bound buffer (block or local)  
+
+
 
 --= Transform Ops
-trace shape c w MODE       -- *** potential one line shape stroke --WIP***
+trace buff c w MODE         -- Outline a buffer with stroke ***WIP***   
+spin buff d                 -- Rotate buffer by degrees 		***WIP***   
+shift buff x y [fill]       -- Cut-paste style offset 			***WIP***   
+flip buff a                 -- Flip across axis (x or y) 		***WIP***  
+mirror MODE                 -- TBD 													***WIP***   
 
-spin shape d                    --WIP*** d = degrees
-shift shape x y ?fill                --WIP*** cut paste shift
-flip shape a                    --WIP*** a = axis
-mirror MODE
+fan buff cx cy sx sy n <fanmod>         -- Radial layout of shape buffer around center  
+-                                       -- Modes: BACKSPIN | NOSPIN (n < 0 = CCW)  
+-                                       -- Mod: <increment px> — radial distance increase per step  
 
-merge shape shape  --  merge two shapes, with merge mode ENUMS
-erase shape        -- Erase a shape from the MAIN buffer. No shape erases MAIN buffer maybe
-invert ?shape      -- Invert shape or MAIN buffer 
+scatter <noisemod>??                             -- Seeded distribution of shapes ***WIP*** 
+
+--= Boolean Ops
+merge src dst [MODE]       -- Merge two buffers; Modes: UNION | SUBTRACT | INTERSECT | EXCLUDE  
+erase buff                 -- Erase shape from BASE buffer  
+invert [buff]              -- Invert buffer or BASE (0 ↔︎ 1+)  
+recolor buff clrA clrB ... -- Remap color indices in buffer (A→B, A→B...)
+
+-- Buffer Operators (expression sugar)
+a + b     → merge a b UNION  
+a - b     → merge a b SUBTRACT  
+a * b     → merge a b INTERSECT  
+a ^ b     → merge a b EXCLUDE  
 
 --= Utility Ops
-last               -- Used in place of a shape to consume the previous TEMP buffer 
+last                      -- Use last unnamed buffer in place of shape  
 
--- others WIP ***
+--= Experimental / ***WIP*** 
+warp**                    -- ??? (not ruled out) 										***WIP***   
+future pattern ops        -- e.g. stripes, checker, dither 					***WIP***   
+wrap                      -- Maybe a draw-mode or shape wrap-around ***WIP***  
+noise MODE buff density   -- Noise-based buffer patterning 				  ***WIP*** 
 
-warps**
-or future pattern ops (e.g. stripes, checker, dither)
-wrap
-noise MODE shape density
+--= Syntax Sugar
+Whitespace separates all tokens; spacing is flexible but must be clear.
+,                          -- Comma acts as optional whitespace anywhere; purely cosmetic  
+;                          -- Semicolon = inline newline; sequences ops in a single line (like Lua)  
+                           -- Example: `circ red 4 4 3 ; last - mask ; last * shape`
 
 
 
-
-
+--------------
 
 
 MVP IMPL:
@@ -74,9 +99,45 @@ rect
 circ
 
 stroke
+shadow
 
-merge
+merge -- Union, Subtract, Intersect, Exclude + Meta 'MODE' Dispatcher
 erase
-invert
+
+
+
+
+
+
+
+
+-------------
+
+✅ Block Resolution Strategy Summary
+
+Goal:
+Allow Spall blocks (: name) to reference earlier blocks, without runtime lookups or multipass logic.
+
+🧠 Model
+Each : block is evaluated immediately, just like a tile
+
+Instead of committing to _context.tiles, it commits to _context.user[name]
+
+After evaluation, the buffer is promoted to a global:
+✅ Benefits
+✅ Single-pass evaluation
+
+✅ No runtime indirection
+
+✅ Blocks become global reusable shapes
+
+✅ DSL remains composable, predictable, and tight
+
+This is a minimal linker pass for reusable shapes — clear, static, and declarative.
+
+
+
+
+
 
 last
