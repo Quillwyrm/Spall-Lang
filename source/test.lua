@@ -1,5 +1,4 @@
 -- SPALLCORE TEST
-
 local core = require("./spallcore")
 
 -- state
@@ -10,13 +9,13 @@ local _Rect = core._Rect
 local _Blit = core._Blit
 local _Circ = core._Circ
 local _Line = core._Line
--- local _draw = core._draw
+local _draw = core._draw
 
 -- core util
 local _commitTemp = core._commitTemp
 
 -- palette
---local blk = _context.palette.blk
+local blk = _context.palette.blk
 local wht = _context.palette.wht
 local red = _context.palette.red
 local grn = _context.palette.grn
