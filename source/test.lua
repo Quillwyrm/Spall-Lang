@@ -1,5 +1,5 @@
 -- SPALLCORE TEST
-local core = require("./spallcore")
+local core = require("source.spallcore")
 
 -- state
 local _context = core._context
@@ -33,7 +33,7 @@ _context.temp = _Line(grn, 8, 1, 1, 8)
 _commitTemp("demo")
 
 -- circ red 4 4 6
-_context.temp = _Circ(red, 4, 4, 6)
+_context.temp = _Circ(red, 4, 4, 9)
 _commitTemp("demo")
 
 -- circ red 13 3 4
@@ -57,7 +57,7 @@ _context.temp = _Rect(grn, 1, 12, 5, 5)
 _commitTemp("demo")
 
 -- blit wht 3 14 5 5
-_context.temp = _Blit(wht, 3, 14, 5, 5)
+_context.temp = _Blit(wht, 3, 14)
 _commitTemp("demo")
 
 -- line grn 1 1 16 16
@@ -66,7 +66,9 @@ _commitTemp("demo")
 
 -- Output result -- implicit in final dsl
 log("demo", _context.tiles["demo"])
-core.test_outputBufferToPPM(_context.tiles["demo"], "../output/demo.ppm", _context.colors)
+
+
+core.test_outputBufferToPPM(_context.tiles["demo"], "output/demo.ppm", _context.colors)
 
 --[[ .spl equivelent
 

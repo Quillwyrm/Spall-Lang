@@ -76,13 +76,39 @@ noise MODE buff density   -- Noise-based buffer patterning 				  ***WIP***
 
 --= Syntax Sugar
 Whitespace separates all tokens; spacing is flexible but must be clear.
-,                          -- Comma acts as optional whitespace anywhere; purely cosmetic  
-;                          -- Semicolon = inline newline; sequences ops in a single line (like Lua)  
-                           -- Example: `circ red 4 4 3 ; last - mask ; last * shape`
+comma `,`                  -- Comma acts as optional whitespace anywhere; purely cosmetic  
+Semicolon `;`              -- Semicolon = inline newline; sequences ops in a single line (like Lua)  
+-                          -- Example: `circ red 4 4 3 ; last - mask ; last * shape`
 
 
 
---------------
+
+SPALL PIXEL DATA - .spd
+Raw output format of Spall (actualy just a .lua with tables)
+```
+return { -- faces.spd
+--1-------------------------
+  smile = { 
+    w = 4; h = 4,
+    pixels = {
+      {1,2,2,1},
+      {2,2,2,2},
+      {1,2,2,1},
+      {2,1,1,2},},
+    x = nil; y = nil,}
+--2-------------------------
+  frown = { 
+    w = 4; h = 4,
+    pixels = {
+      {1,2,2,1},
+      {2,2,2,2},
+      {2,1,1,2},
+      {1,2,2,1},},
+    x = nil; y = nil,}
+---------------------------
+} -- Spall Pixel Data
+
+```
 
 
 MVP IMPL:

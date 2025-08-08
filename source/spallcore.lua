@@ -208,7 +208,7 @@ end
 -- > Merge `temp` into the tile buffer then clear `temp`.
 -- If the tile doesn’t exist, it is created from `temp` as-is.
 -- `tile_name` - The name of the target tile buffer.
--- `⚠️effect` - Mutates `_context.tiles` and clears `temp`.
+-- `⚠️ effect` - Mutates `_context.tiles` and clears `temp`.
 local _commitTemp = function(tile_name)
   local temp = _context.temp
   if not temp then
@@ -395,28 +395,20 @@ end
 -- Debug --------------------------------------------------------------------------------------------------------------
 
 local test_logBufferToConsole = function(name, buf)
-  local width = buf.w
-  local height = buf.h
-  print(name .. string.rep("-", 20 - #name))
-  print("w: " .. width .. " - h: " .. height)
-  print(string.rep("-", 4 + (width * 2)))
-  io.write("   X")
-  for x = 1, width do
-    io.write(" " .. x)
-  end
-  print()
-  io.write(" Y +")
-  io.write(string.rep("-", width * 2))
-  print()
-  for y = 1, height do
-    io.write(" " .. y .. " |")
-    for x = 1, width do
-      io.write(" " .. tostring(buf[y][x] or 0))
-    end
-    print()
-  end
-  print(string.rep("-", 4 + (width * 2)))
+    local width = buf.w
+    local height = buf.h
+    print(name .. string.rep("-", 20 - #name))
+    print("w: " .. width .. " - h: " .. height)
+    print(string.rep("-", width * 2))
+    for y = 1, height do
+        for x = 1, width do
+          io.write(" " .. tostring(buf[y][x] or 0))
+        end
+        print()
+      end
+    print(string.rep("-", width * 2))
 end
+
 
 -- outputBufferToPPM(buf, path)
 -- Writes a .ppm (P3) file from a pixel buffer and current palette (color index → RGB)
