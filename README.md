@@ -39,11 +39,11 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 ```moonscript
 > size 16 16
 > palette
-  C1 0x2b2b2b : blk
-  C2 #e6ddd2 : mrt     -- mortar
-  C3 #a4442f : brk     -- brick
-  C4 #5aa64e : mos     -- moss
-  C5 #143d12 : deep    -- moss shade
+  C1 2b2b2b : blk
+  C2 e6ddd2 : mrt     -- mortar
+  C3 a4442f : brk     -- brick
+  C4 5aa64e : mos     -- moss
+  C5 143d12 : deep    -- moss shade
 
 > vars
   cell_w 4
@@ -62,29 +62,26 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 --== MASK CONSTRUCTION ============================
 
 : MortarLines                 -- thin lines = mask of mortar seams
-  grid 1 1 4 6 cell_w cell_h stagger ROW stagger_px
+  grid 1 1, 4 6 cell_w cell_h stagger ROW stagger_px
 
 : BrickFill                   -- full field mask (before removing mortar)
-  rect 1 1 16 16
+  rect 1 1, 16 16
 
 : BrickMass                   -- bricks = field minus mortar seams
   merge BrickFill MortarLines EXCLUDE           -- mask: 1 inside bricks, 0 elsewhere
 
 : Cracks                      -- hairline chips to subtract from bricks
-  line 2 3  15 12
-  line 8 1  9 16
+  line 2 3, 15 12
+  line 8 1, 9 16
 
 : BrokenBricks                -- bricks with cracks removed
   merge BrickMass Cracks EXCLUDE
 
 -- Moss sprite as a tiny mask
 : Moss
-  blit 0 0
-  blit 1 0
-  blit 0 1
-  blit 1 1
-  blit 1 2
-  blit 2 1
+  blit 0 0; blit 1 0
+  blit 0 1; blit 1 1
+  blit 1 2; blit 2 1
 
 : MossScatter
   scatter Moss mossDensity     -- produces a mask of moss placements
@@ -99,7 +96,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 --== RENDER ================================================================
 
 # bricks_moss
-  rect mrt 1 1 16 16                -- paint background mortar
+  rect mrt 1 1, 16 16               -- paint background mortar
   BrokenBricks brk 1 1              -- draw brick mass recolored to brick
   MossOnBricks mos 1 1              -- draw moss on top (uses moss color)
   blit deep ix+rx iy+ry             -- subtle random speckle 
