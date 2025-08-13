@@ -37,22 +37,72 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 ### Example:
 
 ```
-> size 8 8            -- Set global tile dimensions
+> size 16 16
+> palette
+  C1 #2b2b2b : blk
+  C2 #e6ddd2 : mrt     -- mortar
+  C3 #a4442f : brk     -- brick
+  C4 #5aa64e : mos     -- moss
+  C5 #143d12 : deep    -- moss shade
 
-> palette             -- Define Global Palette
-  C1 #000000 : blk
-  C2 #ffffff : wht
-  C3 #ff0044 : red
+> vars
+  cell_w 4
+  cell_h 3
+  stagger_px 2
+  mossDensity 0.20      -- 0..1 fraction of placements
 
-: RedRing             -- Define a custom shape block: red circle with black outline, inner cutout
-  circ red 4 4 6 stroke blk 1 out
-  circ 4 4 3
-  erase last
+> rand
+  rx -1 1
+  ry -1 1
 
-# yourTile            -- Define an output Tile, this is what will be exported.
-  rect wht 0 0 8 8
-  RedRing
-  line blk 0 0 7 7
+> loops
+  ix 1 16 4
+  iy 1 16 3
+
+--== MASK CONSTRUCTION ============================
+
+: MortarLines                 -- thin lines = mask of mortar seams
+  grid 1 1 4 6 cell_w cell_h stagger ROW stagger_px
+
+: BrickFill                   -- full field mask (before removing mortar)
+  rect 1 1 16 16
+
+: BrickMass                   -- bricks = field minus mortar seams
+  merge BrickFill MortarLines EXCLUDE           -- mask: 1 inside bricks, 0 elsewhere
+
+: Cracks                      -- hairline chips to subtract from bricks
+  line 2 3  15 12
+  line 8 1  9 16
+
+: BrokenBricks                -- bricks with cracks removed
+  merge BrickMass Cracks EXCLUDE
+
+-- Moss sprite as a tiny mask
+: Moss
+  blit 0 0
+  blit 1 0
+  blit 0 1
+  blit 1 1
+  blit 1 2
+  blit 2 1
+
+: MossScatter
+  scatter Moss mossDensity     -- produces a mask of moss placements
+
+: ShadedMoss
+ MossScatter deep 2 2
+ MossScatter
+
+: MossOnBricks                -- keep moss only where bricks exist
+  merge SadedMoss BrokenBricks INTERSECT
+
+--== RENDER ================================================================
+
+# bricks_moss
+  rect mrt 1 1 16 16                -- paint background mortar
+  BrokenBricks brk 1 1              -- draw brick mass recolored to brick
+  MossOnBricks mos 1 1              -- draw moss on top (uses moss color)
+  blit deep ix+rx iy+ry             -- subtle random speckle 
 ```
 
 ## Inspirations
