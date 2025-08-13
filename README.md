@@ -39,7 +39,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 ```moonscript
 > size 16 16
 > palette
-  C1 #2b2b2b : blk
+  C1 0x2b2b2b : blk
   C2 #e6ddd2 : mrt     -- mortar
   C3 #a4442f : brk     -- brick
   C4 #5aa64e : mos     -- moss
