@@ -9,7 +9,7 @@ It's currently under development with an alpha available soon.
 
 
 ### What?  
-A minimal and expressive scripting language for creating pixel operation flows, used to generate sprites, tiles, masks, and procedural shapes.
+A minimal and expressive scripting language for procedurally defining pixel art, used to generate sprites, tiles, masks, and procedural shapes.
 
 ### Why?  
 To let you explore, create, and express pixel art through an intuative, code-driven, layered, and generative medium.
