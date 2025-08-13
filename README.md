@@ -29,7 +29,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 - Minimal syntax, stack-influenced structure
 - Built-in color palette, loop, and randomness directives
 - Reusable blocks for procedural shape composition
-- Multiple output formats: `.png`, matrix data (`.yml`)
+- Multiple output formats: `.png`, pixel data `.spd`
 - Works as a CLI or Lua module
 - Zero dependencies, no GUI or editor required
 
