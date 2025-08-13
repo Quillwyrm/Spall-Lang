@@ -18,7 +18,7 @@ To let you explore, create, and express pixel art through an intuative, code-dri
 - Want each output to be slightly different? Use vars from the `> rands` block.  
 - Want to define reusable, composable shapes? Bind a `: Block`, and reuse it across tiles in a script.  
 - Want to build procedural shape patterns? Use vars from `> loops` to iterate ops with minimal syntax.  
-- Want to output logic masks or room shapes? Use Spall’s matrix output mode, or itegrate it as a Lua module.
+- Want to output logic masks or room shapes? Use the Spall Pixel Data `.spd` format, and use the 2D int array (stored as a Lua table).
 
 It’s not just a novel way to make tiles.  
 It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
