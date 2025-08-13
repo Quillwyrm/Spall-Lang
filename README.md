@@ -36,7 +36,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 
 ### Example:
 
-```lua
+```C
 > size 16 16
 > palette
   C1 #2b2b2b : blk
