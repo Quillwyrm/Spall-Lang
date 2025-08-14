@@ -37,7 +37,8 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 ### Example:
 
 ```lua
-> size 16 16
+> size 16 16  -- Set global Tile size
+
 > palette
   C1 2b2b2b : blk
   C2 e6ddd2 : mrt     -- mortar
@@ -46,20 +47,20 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
   C5 143d12 : deep    -- moss shade
 
 > vars
-  cell_w 4
-  cell_h 3
-  stagger_px 2
-  mossDensity 0.20      -- 0..1 fraction of placements
+  4    : cell_w
+  3    : cell_h
+  2    : stagger_px
+  0.20 : mossDensity      -- 0..1 fraction of placements
 
-> rand
-  rx -1 1
-  ry -1 1
+> rands
+  -1 1 : rx
+  -1 1 : ry
 
 > loops
-  ix 1 16 4
-  iy 1 16 3
+  1 16 4 : ix
+  1 16 3 : iy
 
---== MASK CONSTRUCTION ============================
+--== Creat Mask Blocks (Named reusable buffers, no set color denotes we're only using the shape.) ============================
 
 : MortarLines                 -- thin lines = mask of mortar seams
   grid 1 1, 4 6 cell_w cell_h stagger ROW stagger_px
