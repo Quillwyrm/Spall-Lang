@@ -60,7 +60,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
   1 16 4 : ix
   1 16 3 : iy
 
---== Creat Mask Blocks (Named reusable buffers, no set color denotes we're only using the shape.) ============================
+--== Create Mask Blocks (Named reusable buffers, no set color denotes we're only using the shape.) 
 
 : MortarLines                 -- thin lines = mask of mortar seams
   grid 1 1, 4 6 cell_w cell_h stagger ROW stagger_px
@@ -92,9 +92,9 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
  MossScatter
 
 : MossOnBricks                -- keep moss only where bricks exist
-  merge SadedMoss BrokenBricks INTERSECT
+  merge ShadedMoss BrokenBricks INTERSECT
 
---== RENDER ================================================================
+--== Output Tiles 
 
 # bricks_moss
   rect mrt 1 1, 16 16               -- paint background mortar
