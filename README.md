@@ -1,24 +1,25 @@
-# Spall  
+# Spall -
 **Sequential Pixel Art Layer Language**
 
-Spall is a minimal and expressive scripting language for defining pixel operation flows. Used to generate sprites, tiles, masks, and procedural shapes.
+Spall is a minimal and expressive scripting language for defining pixel operations. Used to generate sprites, tiles, masks, and procedural shapes.  
+It's currently under development with an alpha available soon. 
 
 
 
 
 
 ### What?  
-A minimal and expressive scripting language for creating pixel operation flows, used to generate sprites, tiles, masks, and procedural shapes.
+A minimal scripting language, with a core written in Lua, for procedurally defining pixel art. Used to generate sprites, tiles, masks, and procedural shapes.
 
 ### Why?  
 To let you explore, create, and express pixel art through an intuative, code-driven, layered, and generative medium.
 
 - Want to create subtle tile variations? Just tweak a few values.  
 - Want to define an entire tileset with variants? Just stack multiple `# tiles` in one file.  
-- Want each output to be slightly different? Use `> RAND` vars.  
-- Want to define reusable, composable shapes? Bind a `: Block`, and reuse it across scripts.  
-- Want to build procedural shape patterns? Use vars from `> LOOPS` to iterate ops with minimal syntax.  
-- Want to output logic masks or room shapes? Use Spall’s matrix output mode, or itegrate it as a Lua module.
+- Want each output to be slightly different? Use vars from the `> rands` block.  
+- Want to define reusable, composable shapes? Bind a `: Block`, and reuse it across tiles in a script.  
+- Want to build procedural shape patterns? Use vars from `> loops` to iterate ops with minimal syntax.  
+- Want to output logic masks or room shapes? Use the Spall Pixel Data `.spd` format, and use the 2D int array (stored as a Lua table).
 
 It’s not just a novel way to make tiles.  
 It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
@@ -29,29 +30,81 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 - Minimal syntax, stack-influenced structure
 - Built-in color palette, loop, and randomness directives
 - Reusable blocks for procedural shape composition
-- Multiple output formats: `.png`, matrix data (`.yml`)
+- Multiple output formats: `.png`, pixel data `.spd`
 - Works as a CLI or Lua module
 - Zero dependencies, no GUI or editor required
 
 ### Example:
 
 ```lua
+<<<<<<< HEAD
 > size 8 8            -- Set global tile dimensions
+=======
+> size 16 16  -- Set global Tile size
+>>>>>>> 4cb847f7645f480d1aecdb665ab94d4bb53c9b39
 
-> palette             -- Define Global Palette
-  C1 #000000 : blk
-  C2 #ffffff : wht
-  C3 #ff0044 : red
+> palette
+  C1 2b2b2b : blk
+  C2 e6ddd2 : mrt     -- mortar
+  C3 a4442f : brk     -- brick
+  C4 5aa64e : mos     -- moss
+  C5 143d12 : deep    -- moss shade
 
-: RedRing             -- Define a custom shape block: red circle with black outline, inner cutout
-  circ red 4 4 6 stroke blk 1 out
-  circ 4 4 3
-  erase last
+> vars
+  4    : cell_w
+  3    : cell_h
+  2    : stagger_px
+  0.20 : mossDensity      -- 0..1 fraction of placements
 
-# yourTile            -- Define an output Tile, this is what will be exported.
-  rect wht 0 0 8 8
-  RedRing
-  line blk 0 0 7 7
+> rands
+  -1 1 : rx
+  -1 1 : ry
+
+> loops
+  1 16 4 : ix
+  1 16 3 : iy
+
+--== Create Mask Blocks (Named reusable buffers, no set color denotes we're only using the shape.) 
+
+: MortarLines                 -- thin lines = mask of mortar seams
+  grid 1 1, 4 6 cell_w cell_h stagger ROW stagger_px
+
+: BrickFill                   -- full field mask (before removing mortar)
+  rect 1 1, 16 16
+
+: BrickMass                   -- bricks = field minus mortar seams
+  merge BrickFill MortarLines EXCLUDE           -- mask: 1 inside bricks, 0 elsewhere
+
+: Cracks                      -- hairline chips to subtract from bricks
+  line 2 3, 15 12
+  line 8 1, 9 16
+
+: BrokenBricks                -- bricks with cracks removed
+  merge BrickMass Cracks EXCLUDE
+
+-- Moss sprite as a tiny mask
+: Moss
+  blit 0 0; blit 1 0
+  blit 0 1; blit 1 1
+  blit 1 2; blit 2 1
+
+: MossScatter
+  scatter Moss mossDensity     -- produces a mask of moss placements
+
+: ShadedMoss
+ MossScatter deep 2 2
+ MossScatter
+
+: MossOnBricks                -- keep moss only where bricks exist
+  merge ShadedMoss BrokenBricks INTERSECT
+
+--== Output Tiles 
+
+# bricks_moss
+  rect mrt 1 1, 16 16               -- paint background mortar
+  BrokenBricks brk 1 1              -- draw brick mass recolored to brick
+  MossOnBricks mos 1 1              -- draw moss on top (uses moss color)
+  blit deep ix+rx iy+ry             -- subtle random speckle 
 ```
 
 ## Inspirations
