@@ -86,10 +86,10 @@ A TEMP buffer can be bound to a name using `OP : name`, turning it into a SHAPE.
 
 | Situation                     | Result                            |
 |------------------------------|------------------------------------|
-| TEMP is consumed              | TEMP is discarded (e.g. `ERASE SHAPE`) |
-| TEMP is named                 | TEMP is saved (e.g. `LINE 0 0 7 7 : diag`) |
-| TEMP is left unbound          | Implicit merge into MAIN on next op |
-| TEMP is last op in tile block | Auto-merged to MAIN unless named |
+| TEMP is consumed              | TEMP is discarded (e.g. `erase last`) |
+| TEMP is named                 | TEMP is saved (e.g. `line 0 0 7 7 : diag`) |
+| TEMP is left unbound          | Implicit merge into BASE on next op |
+| TEMP is last op in tile block | Auto-merged to BASE unless named |
 
 ### Output Structure
 

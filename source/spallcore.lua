@@ -11,7 +11,7 @@
 -- `x_pos` - *(optional)* x-position for alignment during merge/draw.
 -- `y_pos` - *(optional)* y-position for alignment during merge/draw.
 -- `return` - A new pixel buffer table with metadata.
-local _PixelBuffer = function(width, height, x_pos, y_pos)
+local function _PixelBuffer(width, height, x_pos, y_pos)
   local buffer = {}
 
   buffer.w = width
@@ -28,7 +28,7 @@ local _PixelBuffer = function(width, height, x_pos, y_pos)
   end
   return buffer
 end
-
+ 
 -- **`_initPalette()`**
 -- > Initialize default color aliases and index mappings.
 -- Returns a palette table mapping named colors (e.g. `red`, `blk`) and canonical keys (`C1`, `C2`) to indices.
@@ -36,7 +36,7 @@ end
 -- `return` - A palette table: `{ name → index, Cn → index }`
 local _initPalette = function()
   return {
-    C0 = 0, none = 0,
+    C0 = 0, none= 0,
     C1 = 1, blk = 1,
     C2 = 2, wht = 2,
     C3 = 3, red = 3,
@@ -131,10 +131,13 @@ local _mergeSubtract = function(src, dst)
   return out
 end -- return merged result (pure)
 
+
+
+
 -- **`_mergeIntersect(src, dst)`**
 -- > Merge two buffers with intersection logic.
 -- Returns a new buffer where only overlapping non-zero pixels from both `src` and `dst` are kept.
--- Inputs are unchanged (pure operation).
+-- Inputs are unchanged (pur e operation).
 -- `src` - Positioned buffer (with `.x` and `.y`) acting as the intersecting mask.
 -- `dst` - Base buffer to intersect with (must not be positioned).
 -- `return` - A new buffer with the intersection result.
@@ -179,6 +182,7 @@ local _mergeExclude = function(src, dst)
   end
   return out
 end -- return merged result (pure)
+
 
 -- **`_merge(src, dst, mode)`**
 -- > Dispatch to a specific merge operation based on `mode`.
@@ -378,7 +382,6 @@ local _draw = function(source_buffer, color, target_x, target_y)
 
   local width = source_buffer.w
   local height = source_buffer.h
-
   local drawn = _PixelBuffer(width, height, target_x, target_y)
 
   for py = 1, height do
@@ -395,15 +398,15 @@ end
 -- Debug --------------------------------------------------------------------------------------------------------------
 
 local test_logBufferToConsole = function(name, buf)
-    local width = buf.w
-    local height = buf.h
-    print(name .. string.rep("-", 20 - #name))
-    print("w: " .. width .. " - h: " .. height)
-    print(string.rep("-", width * 2))
+  local width = buf.w
+  local height = buf.h
+  print(name .. string.rep("-", 20 - #name))
+  print("w: " .. width .. " - h: " .. height)
+  print(string.rep("-", width * 2))
     for y = 1, height do
-        for x = 1, width do
-          io.write(" " .. tostring(buf[y][x] or 0))
-        end
+      for x = 1, width do
+        io.write(" " .. tostring(buf[y][x] or 0))
+      end
         print()
       end
     print(string.rep("-", width * 2))

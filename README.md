@@ -35,7 +35,7 @@ It’s a precise, expressive, code-driven tool for 2D pixel matrix composition.
 
 ### Example:
 
-```
+```lua
 > size 8 8            -- Set global tile dimensions
 
 > palette             -- Define Global Palette

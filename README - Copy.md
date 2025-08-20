@@ -119,7 +119,7 @@ LINE 0 0 7 7 red
 ### Block Definitions (`: name w h`)
 
 Reusable shape buffers.  
-TEMP buffers bound to names are **local** to the block.
+
 
 Example:
 ```
