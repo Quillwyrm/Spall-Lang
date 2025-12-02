@@ -1,4 +1,4 @@
-# Spall -
+# Spall - [IN DEVELOPMENT]
 **Sequential Pixel Art Layer Language**
 
 Spall is a minimal and expressive scripting language for defining pixel operations. Used to generate sprites, tiles, masks, and procedural shapes.  
